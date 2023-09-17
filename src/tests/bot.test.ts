@@ -1,5 +1,6 @@
 import { afterAll, describe, expect, test } from '@jest/globals';
 import { Client } from 'discord.js';
+import { Bot } from '../app/core/bot/Bot';
 
 describe('bot', () => {
 	const bot = new Bot();
