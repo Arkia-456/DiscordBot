@@ -1,0 +1,35 @@
+{
+  "name": "discordbot",
+  "description": "A bot for Discord app",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "test": "jest",
+		"start": "nodemon src/app/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aurwei/DiscordBot.git"
+  },
+  "author": "aurwei",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aurwei/DiscordBot/issues"
+  },
+  "homepage": "https://github.com/aurwei/DiscordBot#readme",
+	"dependencies": {
+    "discord-api-types": "^0.37.56",
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/node": "^20.6.2",
+    "@typescript-eslint/parser": "^6.7.0",
+    "eslint": "^8.49.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
