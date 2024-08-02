@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "dev": "tsc && node dist/index.js"
+    "dev": "tsc && node dist/index.js",
+    "import-recipes": "tsc && node dist/data/import.js"
   },
   "repository": {
     "type": "git",
