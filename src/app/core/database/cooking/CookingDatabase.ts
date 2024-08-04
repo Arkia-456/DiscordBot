@@ -11,16 +11,16 @@ export default class CookingDatabase extends Database {
 	}
 
 	protected async initAssociations() {
-		Recipe.hasMany(Yield, { foreignKey: 'recipeSlug' });
-		Yield.belongsTo(Recipe, { foreignKey: 'recipeSlug' });
+		Recipe.hasMany(Yield, { foreignKey: 'recipeId' });
+		Yield.belongsTo(Recipe, { foreignKey: 'recipeId' });
 
 		Yield.hasMany(YieldIngredient, { foreignKey: 'yieldId' });
 		YieldIngredient.belongsTo(Yield, { foreignKey: 'yieldId' });
 
-		Ingredient.hasMany(YieldIngredient, { foreignKey: 'ingredientSlug' });
-		YieldIngredient.belongsTo(Ingredient, { foreignKey: 'ingredientSlug' });
+		Ingredient.hasMany(YieldIngredient, { foreignKey: 'ingredientId' });
+		YieldIngredient.belongsTo(Ingredient, { foreignKey: 'ingredientId' });
 
-		Recipe.hasMany(Step, { foreignKey: 'recipeSlug' });
-		Step.belongsTo(Recipe, { foreignKey: 'recipeSlug' });
+		Recipe.hasMany(Step, { foreignKey: 'recipeId' });
+		Step.belongsTo(Recipe, { foreignKey: 'recipeId' });
 	}
 }

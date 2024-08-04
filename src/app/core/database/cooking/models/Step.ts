@@ -9,17 +9,17 @@ export class Step extends Model {
 
 const StepAttributes = {
 	id: {
-		type: DataTypes.STRING,
+		type: DataTypes.INTEGER,
+		autoIncrement: true,
 		primaryKey: true,
 	},
 	index: {
 		type: DataTypes.INTEGER,
+		allowNull: false,
 	},
 	instructions: {
 		type: DataTypes.TEXT,
-	},
-	recipeSlug: {
-		type: DataTypes.STRING,
+		allowNull: false,
 	},
 };
 

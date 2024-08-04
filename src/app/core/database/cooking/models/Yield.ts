@@ -10,14 +10,13 @@ export class Yield extends Model {
 
 const YieldAttributes = {
 	id: {
-		type: DataTypes.STRING,
+		type: DataTypes.INTEGER,
+		autoIncrement: true,
 		primaryKey: true,
 	},
 	yields: {
 		type: DataTypes.INTEGER,
-	},
-	recipeSlug: {
-		type: DataTypes.STRING,
+		allowNull: false,
 	},
 };
 

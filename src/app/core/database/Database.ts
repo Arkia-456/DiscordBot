@@ -1,6 +1,8 @@
 import { Sequelize } from 'sequelize';
 import DatabaseConfig from './DatabaseConfig';
 import { readdir } from 'fs/promises';
+import { ApplicationFatalError } from '../utils/error/ApplicationFatalError';
+import { Logger } from '../utils/logger/Logger';
 
 export abstract class Database {
 
@@ -16,6 +18,11 @@ export abstract class Database {
 	 * Initialize database instance by connecting to database and initializing models.
 	 */
 	public async init() {
+		Logger.write(`
+			-------------------------
+			| Initializing database |
+			-------------------------
+		`);
 		await this.connectDatabase();
 		await this.initModels();
 	}
@@ -28,7 +35,7 @@ export abstract class Database {
 	 * Connect to database with config parameters.
 	 */
 	private async connectDatabase() {
-		console.log('Connecting database...');
+		Logger.write('Connecting database...');
 
 		if (this.sequelize) return;
 		const config = DatabaseConfig.config;
@@ -39,12 +46,12 @@ export abstract class Database {
 			return missing;
 		}, []);
 		if (missingParameter.length) {
-			throw new Error(`Missing parameters: ${missingParameter.join(', ')}`);
+			throw new ApplicationFatalError({ message: `Missing parameters: ${missingParameter.join(', ')}` });
 		}
 
 		const parsedPort = parseInt(config.port, 10);
 		if (isNaN(parsedPort)) {
-			throw new Error(`Error parsing port value, ${config.port} is not a number`);
+			throw new ApplicationFatalError({ message: `Error parsing port value, ${config.port} is not a number` });
 		}
 
 		this.sequelize = new Sequelize(config.name, config.user, config.password, {
@@ -54,21 +61,17 @@ export abstract class Database {
 			logging: false,
 		});
 
-		try {
-			await this.sequelize.authenticate();
-			this.connected = true;
+		await this.sequelize.authenticate();
+		this.connected = true;
 
-			console.log('✅ Database connected successfully');
-		} catch (error) {
-			throw new Error(`Error during sequelize authentication:\n${error}`);
-		}
+		Logger.write('✔ Database connected successfully', true);
 	}
 
 	/**
 	 * Initialize models from files.
 	 */
 	private async initModels() {
-		console.log('Initializing models...');
+		Logger.write('Initializing models...');
 
 		if (!this.sequelize || !this.connected) return;
 
@@ -78,14 +81,8 @@ export abstract class Database {
 		}
 
 		await this.initAssociations();
-
-		try {
-			await this.sequelize.sync({ alter: true });
-
-			console.log('✅ Models initialized successfully');
-		} catch (error) {
-			throw new Error(`Error during sequelize sync:\n${error}`);
-		}
+		await this.sequelize.sync({ alter: true });
+		Logger.write('✔ Models initialized successfully');
 	}
 
 	/**
@@ -94,19 +91,14 @@ export abstract class Database {
 	 */
 	private async initModelFromFile(file: string) {
 		const [name, extension] = file.split('.');
-		console.log(`Initializing model ${name}...`);
+		Logger.write(`Initializing model ${name}...`);
 
 		if (extension.length !== 2) return;
 
 		const model = await import(`./${this.name}/models/${name}`);
 		if (model.initModel) {
-			try {
-				await model.initModel(this.sequelize);
-
-				console.log(`✅ Model ${name} initialized successfully`);
-			} catch (error) {
-				throw new Error(`Error while initializing model: ${name}\n${error}`);
-			}
+			await model.initModel(this.sequelize);
+			Logger.write(`✔ Model ${name} initialized successfully`, true);
 		}
 	}
 

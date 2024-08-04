@@ -3,9 +3,15 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 export default class Ingredient extends Model {}
 
 const IngredientAttributes = {
+	id: {
+		type: DataTypes.INTEGER,
+		autoIncrement: true,
+		primaryKey: true,
+	},
 	slug: {
 		type: DataTypes.STRING,
-		primaryKey: true,
+		allowNull: false,
+		unique: true,
 	},
 	name: {
 		type: DataTypes.STRING,

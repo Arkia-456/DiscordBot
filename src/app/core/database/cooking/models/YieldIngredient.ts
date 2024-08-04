@@ -10,7 +10,8 @@ export class YieldIngredient extends Model {
 
 const YieldIngredientAttributes = {
 	id: {
-		type: DataTypes.STRING,
+		type: DataTypes.INTEGER,
+		autoIncrement: true,
 		primaryKey: true,
 	},
 	amount: {
