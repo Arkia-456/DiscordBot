@@ -1,25 +1,25 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+import { CreationOptional, DataTypes, Model, Sequelize } from 'sequelize';
 
 export class Step extends Model {
-	declare id: string;
+	declare id: CreationOptional<number>;
 	declare index: number;
 	declare instructions: string;
-	declare recipeSlug: string;
+	declare recipeId: number;
 }
 
 const StepAttributes = {
 	id: {
-		type: DataTypes.STRING,
+		type: DataTypes.INTEGER,
+		autoIncrement: true,
 		primaryKey: true,
 	},
 	index: {
 		type: DataTypes.INTEGER,
+		allowNull: false,
 	},
 	instructions: {
 		type: DataTypes.TEXT,
-	},
-	recipeSlug: {
-		type: DataTypes.STRING,
+		allowNull: false,
 	},
 };
 

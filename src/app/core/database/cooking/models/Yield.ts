@@ -1,23 +1,22 @@
-import { DataTypes, Model, NonAttribute, Sequelize } from 'sequelize';
+import { CreationOptional, DataTypes, Model, NonAttribute, Sequelize } from 'sequelize';
 import { YieldIngredient } from './YieldIngredient';
 
 export class Yield extends Model {
-	declare id: string;
+	declare id: CreationOptional<number>;
 	declare yields: number;
-	declare recipeSlug: string;
+	declare recipeId: string;
 	declare ingredients?: NonAttribute<YieldIngredient[]>;
 }
 
 const YieldAttributes = {
 	id: {
-		type: DataTypes.STRING,
+		type: DataTypes.INTEGER,
+		autoIncrement: true,
 		primaryKey: true,
 	},
 	yields: {
 		type: DataTypes.INTEGER,
-	},
-	recipeSlug: {
-		type: DataTypes.STRING,
+		allowNull: false,
 	},
 };
 

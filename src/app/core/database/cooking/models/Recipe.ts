@@ -1,6 +1,7 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from 'sequelize';
 
 export class Recipe extends Model<InferAttributes<Recipe>, InferCreationAttributes<Recipe>> {
+	declare id: CreationOptional<number>;
 	declare slug: string;
 	declare createdAt: CreationOptional<Date>;
 	declare updatedAt: CreationOptional<Date>;
@@ -12,9 +13,15 @@ export class Recipe extends Model<InferAttributes<Recipe>, InferCreationAttribut
 }
 
 const RecipeAttributes = {
+	id: {
+		type: DataTypes.INTEGER,
+		autoIncrement: true,
+		primaryKey: true,
+	},
 	slug: {
 		type: DataTypes.STRING,
-		primaryKey: true,
+		allowNull: false,
+		unique: true,
 	},
 	createdAt: {
 		type: DataTypes.DATE,
@@ -30,6 +37,7 @@ const RecipeAttributes = {
 	},
 	name: {
 		type: DataTypes.STRING,
+		allowNull: false,
 	},
 	preparationTime: {
 		type: DataTypes.INTEGER,
