@@ -1,0 +1,1217 @@
+{
+	"items": [
+		{
+			"active": true,
+			"allergens": [
+					{
+							"id": "57962a07b7e8697d4b3052f5",
+							"name": "Gluten",
+							"type": "gluten",
+							"slug": "gluten",
+							"iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/allergens/57962a07b7e8697d4b3052f5-e20d9ca4.png",
+							"iconPath": "/allergens/57962a07b7e8697d4b3052f5-e20d9ca4.png",
+							"triggersTracesOf": false,
+							"tracesOf": false
+					},
+					{
+							"id": "6203899adf57097e685d96af",
+							"name": "Épeautre",
+							"type": "spelt",
+							"slug": "epeautre",
+							"iconPath": null,
+							"triggersTracesOf": false,
+							"tracesOf": false
+					},
+					{
+							"id": "57962a07b7e8697d4b3052fb",
+							"name": "Fruits à coque",
+							"type": "nuts",
+							"slug": "fruits-a-coque",
+							"iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/allergens/57962a07b7e8697d4b3052fb-172b155c.png",
+							"iconPath": "/allergens/57962a07b7e8697d4b3052fb-172b155c.png",
+							"triggersTracesOf": false,
+							"tracesOf": false
+					},
+					{
+							"id": "5fdcaac412e5336f910e70bd",
+							"name": "Amandes",
+							"type": "almonds",
+							"slug": "amandes",
+							"iconPath": null,
+							"triggersTracesOf": false,
+							"tracesOf": false
+					},
+					{
+							"id": "57962a07b7e8697d4b3052fa",
+							"name": "Lait (contient du lactose)",
+							"type": "milk",
+							"slug": "lait-contient-du-lactose",
+							"iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/allergens/57962a07b7e8697d4b3052fa-be127d3f.png",
+							"iconPath": "/allergens/57962a07b7e8697d4b3052fa-be127d3f.png",
+							"triggersTracesOf": false,
+							"tracesOf": false
+					},
+					{
+							"id": "5b0532aaae08b52eb9420552",
+							"name": "Soja",
+							"type": "traces-of-soya",
+							"slug": "traces-of-soja",
+							"iconPath": null,
+							"triggersTracesOf": false,
+							"tracesOf": true
+					},
+					{
+							"id": "57962a07b7e8697d4b3052f3",
+							"name": "Peut contenir des traces d'allergènes",
+							"type": "maycontaintracesofallergens",
+							"slug": "peut-contenir-des-traces-dallergenes",
+							"iconPath": null,
+							"triggersTracesOf": true,
+							"tracesOf": true
+					},
+					{
+							"id": "57962a07b7e8697d4b305302",
+							"name": "Fruits à coque",
+							"type": "traces-of-nuts",
+							"slug": "traces-of-fruits-a-coque",
+							"iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/allergens/57962a07b7e8697d4b305302-20b4388c.png",
+							"iconPath": "/allergens/57962a07b7e8697d4b305302-20b4388c.png",
+							"triggersTracesOf": false,
+							"tracesOf": true
+					},
+					{
+							"id": "5acf972fae08b54d333ac322",
+							"name": "Graines de sésame",
+							"type": "traces-of-sesame",
+							"slug": "traces-of-graines-de-sesame",
+							"iconPath": null,
+							"triggersTracesOf": false,
+							"tracesOf": true
+					},
+					{
+							"id": "5a9614ab30006c2c026cf562",
+							"name": "Arachides",
+							"type": "traces-of-peanuts",
+							"slug": "traces-of-arachides",
+							"iconPath": null,
+							"triggersTracesOf": false,
+							"tracesOf": true
+					}
+			],
+			"averageRating": 0,
+			"canonical": null,
+			"canonicalLink": null,
+			"cardLink": null,
+			"category": null,
+			"clonedFrom": "64fb2de7786cce2df0e01a51",
+			"comment": null,
+			"country": "FR",
+			"createdAt": "2024-07-26T13:51:14+00:00",
+			"cuisines": [
+					{
+							"id": "57ebbc17b7e8697d4b3053b9",
+							"type": "middleeastern",
+							"name": "Middle Eastern",
+							"slug": "middle-eastern",
+							"iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/cuisines/57ebbc17b7e8697d4b3053b9-28649f9a.jpg"
+					}
+			],
+			"description": "Connaissez-vous le freekeh, cet aliment à base de blé dur vert aussi appelé frikeh, frik ou farik ? Si non, c'est le moment de vous laisser tenter par ces graines torréfiées au léger goût de noisettes qui accompagnent notre salade de chèvre frais, patate douce et amandes grillées. Au delà de la découverte, nous sommes sûrs que cette recette deviendra rapidement l'une de vos indispensables !",
+			"descriptionHTML": "<p>Connaissez-vous le freekeh, cet aliment à base de blé dur vert aussi appelé frikeh, frik ou farik ? Si non, c'est le moment de vous laisser tenter par ces graines torréfiées au léger goût de noisettes qui accompagnent notre salade de chèvre frais, patate douce et amandes grillées. Au delà de la découverte, nous sommes sûrs que cette recette deviendra rapidement l'une de vos indispensables !</p>",
+			"descriptionMarkdown": "Connaissez-vous le freekeh, cet aliment à base de blé dur vert aussi appelé frikeh, frik ou farik ? Si non, c'est le moment de vous laisser tenter par ces graines torréfiées au léger goût de noisettes qui accompagnent notre salade de chèvre frais, patate douce et amandes grillées. Au delà de la découverte, nous sommes sûrs que cette recette deviendra rapidement l'une de vos indispensables !",
+			"difficulty": 2,
+			"favoritesCount": 2,
+			"headline": "avec des légumes rôtis, du citron & des amandes",
+			"id": "65c3967c770ae9faa079acaf",
+			"imageLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/image/HF211122_R215_W02_FR_MB_Main_orange_low-784157e0.jpg",
+			"imagePath": "/image/HF211122_R215_W02_FR_MB_Main_orange_low-784157e0.jpg",
+			"ingredients": [
+					{
+							"id": "6405bf6fb9d07cd5d38d7aa9",
+							"uuid": "0372d7d1-4123-416c-936f-a922d2abd931",
+							"name": "Patate douce",
+							"type": "sweet-potatoes",
+							"slug": "patate-douce",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/6405bf6fb9d07cd5d38d7aa9-a10d4f72.png",
+							"imagePath": "/ingredient/6405bf6fb9d07cd5d38d7aa9-a10d4f72.png",
+							"shipped": true,
+							"allergens": [],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "6405bfbfb0da194777986386",
+							"uuid": "74465e54-fa3b-5202-b7f2-b465297bb828",
+							"name": "Carotte",
+							"type": "carrot",
+							"slug": "carotte",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/6405bfbfb0da194777986386-13aa546d.png",
+							"imagePath": "/ingredient/6405bfbfb0da194777986386-13aa546d.png",
+							"shipped": true,
+							"allergens": [],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "6405bff8b0da194777986443",
+							"uuid": "e5f7a84f-9f36-538d-af4e-3633bd6ec5d8",
+							"name": "Oignon",
+							"type": "onion",
+							"slug": "oignon",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/6405bff8b0da194777986443-142a43b6.png",
+							"imagePath": "/ingredient/6405bff8b0da194777986443-142a43b6.png",
+							"shipped": true,
+							"allergens": [],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "6405c017b0da1947779864a9",
+							"uuid": "30ed0e56-b62d-4efe-bf0b-d8fb0c16a208",
+							"name": "Mélange d'épices du Moyen-Orient",
+							"type": "middle-eastern-spice-blend",
+							"slug": "melange-depices-du-moyen-orient",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/6405c017b0da1947779864a9-88c891a1.png",
+							"imagePath": "/ingredient/6405c017b0da1947779864a9-88c891a1.png",
+							"shipped": true,
+							"allergens": [],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "64073cf09c6d10cd16eab705",
+							"uuid": "f1cc909c-156b-5b45-b3a9-0e5b7e5bfa05",
+							"name": "Freekeh",
+							"type": "freekeh",
+							"slug": "freekeh",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/64073cf09c6d10cd16eab705-d83da55f.png",
+							"imagePath": "/ingredient/64073cf09c6d10cd16eab705-d83da55f.png",
+							"shipped": true,
+							"allergens": [
+									"5b0532aaae08b52eb9420552",
+									"57962a07b7e8697d4b3052f3",
+									"57962a07b7e8697d4b3052f5",
+									"6203899adf57097e685d96af"
+							],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "6405bfecb9d07cd5d38d7c51",
+							"uuid": "7262c572-ffc2-42ad-948e-594e998863fd",
+							"name": "Persil plat et menthe",
+							"type": "fresh-flat-leaf-parsley-and-mint",
+							"slug": "persil-plat-et-menthe",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/6405bfecb9d07cd5d38d7c51-a3d77f75.png",
+							"imagePath": "/ingredient/6405bfecb9d07cd5d38d7c51-a3d77f75.png",
+							"shipped": true,
+							"allergens": [],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "6405c011af4af6d531d50dcd",
+							"uuid": "8f9a7fd7-c4e7-5238-9e69-a27831a2b2b0",
+							"name": "Citron",
+							"type": "lemon",
+							"slug": "citron",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/6405c011af4af6d531d50dcd-772b08c9.png",
+							"imagePath": "/ingredient/6405c011af4af6d531d50dcd-772b08c9.png",
+							"shipped": true,
+							"allergens": [],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "64073ba7df6297bb5beef0f8",
+							"uuid": "ba743c71-aa0e-56f6-9a65-1dc7cd42dbb5",
+							"name": "Amandes effilées",
+							"type": "flaked-almonds",
+							"slug": "amandes-effilees",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/64073ba7df6297bb5beef0f8-1ae4b6a3.png",
+							"imagePath": "/ingredient/64073ba7df6297bb5beef0f8-1ae4b6a3.png",
+							"shipped": true,
+							"allergens": [
+									"57962a07b7e8697d4b305302",
+									"5acf972fae08b54d333ac322",
+									"5a9614ab30006c2c026cf562",
+									"57962a07b7e8697d4b3052f3",
+									"57962a07b7e8697d4b3052fb",
+									"5fdcaac412e5336f910e70bd"
+							],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "6405bf36b0da1947779861b1",
+							"uuid": "b4029194-68ed-4ba6-88dc-305337acec0d",
+							"name": "Salade",
+							"type": "salad",
+							"slug": "salade",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/6405bf36b0da1947779861b1-dedaa0af.png",
+							"imagePath": "/ingredient/6405bf36b0da1947779861b1-dedaa0af.png",
+							"shipped": true,
+							"allergens": [],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "64073babdf6297bb5beef104",
+							"uuid": "e1c35f5d-f8e4-578e-8170-d9c7d2d4df66",
+							"name": "Fromage de chèvre frais",
+							"type": "rind-off-goats-cheese",
+							"slug": "fromage-de-chevre-frais",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/64073babdf6297bb5beef104-0ac09088.png",
+							"imagePath": "/ingredient/64073babdf6297bb5beef104-0ac09088.png",
+							"shipped": true,
+							"allergens": [
+									"57962a07b7e8697d4b3052fa"
+							],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "63e51232a0a0603e5708dcc7",
+							"uuid": "ab5dc03b-135c-46c9-a543-1205933063b0",
+							"name": "Huile d'olive",
+							"type": "huile-dolive-cc",
+							"slug": "huile-dolive",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/63e51232a0a0603e5708dcc7-e8bfa4db.png",
+							"imagePath": "/ingredient/63e51232a0a0603e5708dcc7-e8bfa4db.png",
+							"shipped": false,
+							"allergens": [],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "63e5122081b4b295e66f0256",
+							"uuid": "0ee900c4-2e9a-437c-84b4-76826b234637",
+							"name": "Cube de bouillon de légumes",
+							"type": "cube-de-bouillon-de-legumes-pc",
+							"slug": "cube-de-bouillon-de-legumes",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/63e5122081b4b295e66f0256-21ace66d.jpg",
+							"imagePath": "/ingredient/63e5122081b4b295e66f0256-21ace66d.jpg",
+							"shipped": false,
+							"allergens": [],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "63e5122da0a0603e5708dcc3",
+							"uuid": "5c5844ca-6509-4bf1-beb8-b91a7ece9b11",
+							"name": "Vinaigre balsamique blanc ou de riz",
+							"type": "vinaigre-balsamique-blanc-ou-de-riz-cc",
+							"slug": "vinaigre-balsamique-blanc-ou-de-riz",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/63e5122da0a0603e5708dcc3-06e2a8be.png",
+							"imagePath": "/ingredient/63e5122da0a0603e5708dcc3-06e2a8be.png",
+							"shipped": false,
+							"allergens": [],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "63e5122fbc1d64f7b96e270d",
+							"uuid": "d7163bce-490a-4de3-949e-e8c7ffde4c40",
+							"name": "Miel",
+							"type": "miel-cc",
+							"slug": "miel",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/63e5122fbc1d64f7b96e270d-90fca0fe.png",
+							"imagePath": "/ingredient/63e5122fbc1d64f7b96e270d-90fca0fe.png",
+							"shipped": false,
+							"allergens": [],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					},
+					{
+							"id": "63e5122b81b4b295e66f025e",
+							"uuid": "9481dcd8-7825-4a7a-8b7f-1d2171de985d",
+							"name": "Poivre et sel",
+							"type": "poivre-et-sel-au-gout",
+							"slug": "poivre-et-sel",
+							"country": "FR",
+							"imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/63e5122b81b4b295e66f025e-b135bada.png",
+							"imagePath": "/ingredient/63e5122b81b4b295e66f025e-b135bada.png",
+							"shipped": false,
+							"allergens": [],
+							"family": {
+									"id": "6299e0f4f7cd25bc1c024384",
+									"uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+									"name": "none",
+									"slug": "none",
+									"type": "none",
+									"priority": 0,
+									"iconLink": null,
+									"iconPath": null
+							}
+					}
+			],
+			"isAddon": false,
+			"isComplete": null,
+			"label": null,
+			"link": "https://hellofresh.com/recipes/65c3967c770ae9faa079acaf",
+			"name": "Bowl oriental : freekeh, chèvre frais & menthe",
+			"nutrition": [
+					{
+							"type": "57b42a48b7e8697d4b30530d",
+							"name": "Énergie (kJ)",
+							"amount": 2692,
+							"unit": "kJ"
+					},
+					{
+							"type": "57b42a48b7e8697d4b305304",
+							"name": "Énergie (kcal)",
+							"amount": 643,
+							"unit": "kcal"
+					},
+					{
+							"type": "57b42a48b7e8697d4b305307",
+							"name": "Matières grasses",
+							"amount": 19.5,
+							"unit": "g"
+					},
+					{
+							"type": "57b42a48b7e8697d4b305308",
+							"name": "dont acides gras saturés",
+							"amount": 7.7,
+							"unit": "g"
+					},
+					{
+							"type": "57b42a48b7e8697d4b305305",
+							"name": "Glucides",
+							"amount": 98.6,
+							"unit": "g"
+					},
+					{
+							"type": "57b42a48b7e8697d4b305306",
+							"name": "dont sucres",
+							"amount": 28.1,
+							"unit": "g"
+					},
+					{
+							"type": "57b42a48b7e8697d4b305309",
+							"name": "Protéines",
+							"amount": 19.9,
+							"unit": "g"
+					},
+					{
+							"type": "57b42a48b7e8697d4b30530b",
+							"name": "Sel",
+							"amount": 2.73,
+							"unit": "g"
+					}
+			],
+			"prepTime": "PT40M",
+			"promotion": null,
+			"ratingsCount": 0,
+			"seoDescription": null,
+			"seoName": null,
+			"servingSize": 528,
+			"slug": "bowl-oriental-freekeh-chevre-frais-and-menthe",
+			"steps": [
+					{
+							"index": 1,
+							"instructions": "\nVeillez à bien respecter les quantités indiquées à gauche pour préparer votre recette !\nPréchauffez le four à 230°C (210°C chaleur tournante).\nÉpluchez la patate douce et la carotte, puis coupez-les en dés de 1 cm (plus ils seront petits, plus ils cuiront vite).\nÉpluchez et coupez l’oignon en morceaux de 2 cm.\n",
+							"instructionsHTML": "<ul>\n<li>Veillez à bien respecter les quantités indiquées à gauche pour préparer votre recette !</li>\n<li>Préchauffez le four à 230°C (210°C chaleur tournante).</li>\n<li>Épluchez la patate douce et la carotte, puis coupez-les en dés de 1 cm (plus ils seront petits, plus ils cuiront vite).</li>\n<li>Épluchez et coupez l’oignon en morceaux de 2 cm.</li>\n</ul>",
+							"instructionsMarkdown": "<ul>\n<li>Veillez à bien respecter les quantités indiquées à gauche pour préparer votre recette !</li>\n<li>Préchauffez le four à 230°C (210°C chaleur tournante).</li>\n<li>Épluchez la patate douce et la carotte, puis coupez-les en dés de 1 cm (plus ils seront petits, plus ils cuiront vite).</li>\n<li>Épluchez et coupez l’oignon en morceaux de 2 cm.</li>\n</ul>",
+							"ingredients": [],
+							"utensils": [
+									"57e2674fb7e8697d4b305379"
+							],
+							"timers": [],
+							"images": [
+									{
+											"link": "https://d3hvwccx09j84u.cloudfront.net/0,0/65c3967c770ae9faa079acaf/step-450de500.jpg",
+											"path": "/65c3967c770ae9faa079acaf/step-450de500.jpg",
+											"caption": "Préparer"
+									}
+							],
+							"videos": []
+					},
+					{
+							"index": 2,
+							"instructions": "\nMélangez les légumes avec ⅓ sachet d'épices du Moyen-Orient par personne (ça pique ! Dosez-les selon votre goût) sur une plaque recouverte de papier sulfurisé.\nAjoutez un petit filet d'huile d’olive, salez et poivrez.\nMélangez bien et enfournez le tout 20-25 min, ou jusqu'à ce que les légumes soient tendres.\nLaissez-les refroidir hors du four après cuisson.\n",
+							"instructionsHTML": "<ul>\n<li>Mélangez les légumes avec ⅓ sachet d&#39;épices du Moyen-Orient par personne (ça pique ! Dosez-les selon votre goût) sur une plaque recouverte de papier sulfurisé.</li>\n<li>Ajoutez un petit filet d&#39;huile d’olive, salez et poivrez.</li>\n<li>Mélangez bien et enfournez le tout 20-25 min, ou jusqu&#39;à ce que les légumes soient tendres.</li>\n<li>Laissez-les refroidir hors du four après cuisson.</li>\n</ul>",
+							"instructionsMarkdown": "<ul>\n<li>Mélangez les légumes avec ⅓ sachet d&#39;épices du Moyen-Orient par personne (ça pique ! Dosez-les selon votre goût) sur une plaque recouverte de papier sulfurisé.</li>\n<li>Ajoutez un petit filet d&#39;huile d’olive, salez et poivrez.</li>\n<li>Mélangez bien et enfournez le tout 20-25 min, ou jusqu&#39;à ce que les légumes soient tendres.</li>\n<li>Laissez-les refroidir hors du four après cuisson.</li>\n</ul>",
+							"ingredients": [],
+							"utensils": [
+									"5e3ad24dfcf61c18c30ff522"
+							],
+							"timers": [],
+							"images": [
+									{
+											"link": "https://d3hvwccx09j84u.cloudfront.net/0,0/65c3967c770ae9faa079acaf/step-d1dd8e10.jpg",
+											"path": "/65c3967c770ae9faa079acaf/step-d1dd8e10.jpg",
+											"caption": "Enfourner les légumes"
+									}
+							],
+							"videos": []
+					},
+					{
+							"index": 3,
+							"instructions": "\nPendant ce temps, portez une grande casserole d’eau à ébullition. Émiettez le cube de bouillon par-dessus.\nAjoutez le freekeh et faites-le cuire 20-25 min.\nEffeuillez, puis ciselez le persil et la menthe.\nCoupez le citron en deux et pressez-en le jus.\n",
+							"instructionsHTML": "<ul>\n<li>Pendant ce temps, portez une grande casserole d’eau à ébullition. Émiettez le cube de bouillon par-dessus.</li>\n<li>Ajoutez le freekeh et faites-le cuire 20-25 min.</li>\n<li>Effeuillez, puis ciselez le persil et la menthe.</li>\n<li>Coupez le citron en deux et pressez-en le jus.</li>\n</ul>",
+							"instructionsMarkdown": "<ul>\n<li>Pendant ce temps, portez une grande casserole d’eau à ébullition. Émiettez le cube de bouillon par-dessus.</li>\n<li>Ajoutez le freekeh et faites-le cuire 20-25 min.</li>\n<li>Effeuillez, puis ciselez le persil et la menthe.</li>\n<li>Coupez le citron en deux et pressez-en le jus.</li>\n</ul>",
+							"ingredients": [],
+							"utensils": [
+									"57e2674fb7e8697d4b305375"
+							],
+							"timers": [],
+							"images": [
+									{
+											"link": "https://d3hvwccx09j84u.cloudfront.net/0,0/65c3967c770ae9faa079acaf/step-4b57be20.jpg",
+											"path": "/65c3967c770ae9faa079acaf/step-4b57be20.jpg",
+											"caption": "Cuire le freekeh"
+									}
+							],
+							"videos": []
+					},
+					{
+							"index": 4,
+							"instructions": "\nFaites chauffer une petite poêle à feu moyen-vif. Faites-y griller les amandes effilées 2-3 min en remuant, ou jusqu'à ce qu'elles soient dorées.\nFaites une vinaigrette en mélangeant un filet d’huile d’olive et de vinaigre balsamique avec le miel et quelques gouttes de jus de citron dans un saladier. Salez et poivrez.\n\nCONSEIL : Pour une vinaigrette plus gourmande, augmentez si vous le souhaitez la quantité d'huile en gardant en tête que cela fera augmenter l'apport calorique de votre plat.",
+							"instructionsHTML": "<ul>\n<li>Faites chauffer une petite poêle à feu moyen-vif. Faites-y griller les amandes effilées 2-3 min en remuant, ou jusqu&#39;à ce qu&#39;elles soient dorées.</li>\n<li>Faites une vinaigrette en mélangeant un filet d’huile d’olive et de vinaigre balsamique avec le miel et quelques gouttes de jus de citron dans un saladier. Salez et poivrez.</li>\n</ul>\n<p>CONSEIL : Pour une vinaigrette plus gourmande, augmentez si vous le souhaitez la quantité d&#39;huile en gardant en tête que cela fera augmenter l&#39;apport calorique de votre plat.</p>",
+							"instructionsMarkdown": "<ul>\n<li>Faites chauffer une petite poêle à feu moyen-vif. Faites-y griller les amandes effilées 2-3 min en remuant, ou jusqu&#39;à ce qu&#39;elles soient dorées.</li>\n<li>Faites une vinaigrette en mélangeant un filet d’huile d’olive et de vinaigre balsamique avec le miel et quelques gouttes de jus de citron dans un saladier. Salez et poivrez.</li>\n</ul>\n<p>CONSEIL : Pour une vinaigrette plus gourmande, augmentez si vous le souhaitez la quantité d&#39;huile en gardant en tête que cela fera augmenter l&#39;apport calorique de votre plat.</p>",
+							"ingredients": [],
+							"utensils": [
+									"57e2674fb7e8697d4b305383",
+									"57e2674fb7e8697d4b30538d"
+							],
+							"timers": [],
+							"images": [
+									{
+											"link": "https://d3hvwccx09j84u.cloudfront.net/0,0/65c3967c770ae9faa079acaf/step-a6a34530.jpg",
+											"path": "/65c3967c770ae9faa079acaf/step-a6a34530.jpg",
+											"caption": "Faire la vinaigrette"
+									}
+							],
+							"videos": []
+					},
+					{
+							"index": 5,
+							"instructions": "\nQuand le freekeh est cuit, égouttez-le et passez-le brièvement sous l'eau froide. Veillez à ce qu'il soit bien égoutté.\nAjoutez le persil, la menthe, la salade, le freekeh et les légumes rôtis au saladier.\nMélangez bien le tout.\n\nLE SAVIEZ-VOUS ? Le freekeh garde une texture croquante (al dente) même lorsqu'il est bien cuit.",
+							"instructionsHTML": "<ul>\n<li>Quand le freekeh est cuit, égouttez-le et passez-le brièvement sous l&#39;eau froide. Veillez à ce qu&#39;il soit bien égoutté.</li>\n<li>Ajoutez le persil, la menthe, la salade, le freekeh et les légumes rôtis au saladier.</li>\n<li>Mélangez bien le tout.</li>\n</ul>\n<p>LE SAVIEZ-VOUS ? Le freekeh garde une texture croquante (al dente) même lorsqu&#39;il est bien cuit.</p>",
+							"instructionsMarkdown": "<ul>\n<li>Quand le freekeh est cuit, égouttez-le et passez-le brièvement sous l&#39;eau froide. Veillez à ce qu&#39;il soit bien égoutté.</li>\n<li>Ajoutez le persil, la menthe, la salade, le freekeh et les légumes rôtis au saladier.</li>\n<li>Mélangez bien le tout.</li>\n</ul>\n<p>LE SAVIEZ-VOUS ? Le freekeh garde une texture croquante (al dente) même lorsqu&#39;il est bien cuit.</p>",
+							"ingredients": [],
+							"utensils": [
+									"57e2674fb7e8697d4b305382"
+							],
+							"timers": [],
+							"images": [
+									{
+											"link": "https://d3hvwccx09j84u.cloudfront.net/0,0/65c3967c770ae9faa079acaf/step-550a1140.jpg",
+											"path": "/65c3967c770ae9faa079acaf/step-550a1140.jpg",
+											"caption": "Mélanger"
+									}
+							],
+							"videos": []
+					},
+					{
+							"index": 6,
+							"instructions": "\nServez la salade de freekeh dans les assiettes.\nÉmiettez le chèvre frais par-dessus. Parsemez d'amandes grillées.\n",
+							"instructionsHTML": "<ul>\n<li>Servez la salade de freekeh dans les assiettes.</li>\n<li>Émiettez le chèvre frais par-dessus. Parsemez d&#39;amandes grillées.</li>\n</ul>",
+							"instructionsMarkdown": "<ul>\n<li>Servez la salade de freekeh dans les assiettes.</li>\n<li>Émiettez le chèvre frais par-dessus. Parsemez d&#39;amandes grillées.</li>\n</ul>",
+							"ingredients": [],
+							"utensils": [],
+							"timers": [],
+							"images": [
+									{
+											"link": "https://d3hvwccx09j84u.cloudfront.net/0,0/65c3967c770ae9faa079acaf/step-94500050.jpg",
+											"path": "/65c3967c770ae9faa079acaf/step-94500050.jpg",
+											"caption": "Servir"
+									}
+							],
+							"videos": []
+					}
+			],
+			"tags": [
+					{
+							"id": "62e009b325792b35bf0b8556",
+							"type": "less-carbon",
+							"name": "Moins de CO2",
+							"slug": "moins-de-co2",
+							"colorHandle": "vegan",
+							"preferences": [
+									"CO2 Smart"
+							],
+							"displayLabel": true
+					},
+					{
+							"id": "57d13370b7e8697d4b305319",
+							"type": "spicy",
+							"name": "Épicé",
+							"slug": "spicy",
+							"colorHandle": "spicy",
+							"preferences": [],
+							"displayLabel": true
+					},
+					{
+							"id": "619f65dae9aadf39547f9f65",
+							"type": "under-650-calories",
+							"name": "Faible en calories",
+							"slug": "faible-en-calories",
+							"colorHandle": "calorieSmart",
+							"preferences": [
+									"Calorie Smart"
+							],
+							"displayLabel": true
+					},
+					{
+							"id": "57d13370b7e8697d4b305317",
+							"type": "veggie",
+							"name": "Végétarien",
+							"slug": "veggie",
+							"colorHandle": "veggie",
+							"preferences": [
+									"Végétarien"
+							],
+							"displayLabel": true
+					}
+			],
+			"totalTime": "PT20M",
+			"uniqueRecipeCode": "RFR29804011-12",
+			"updatedAt": "2024-07-26T16:05:42+00:00",
+			"utensils": [
+					{
+							"id": "57e2674fb7e8697d4b305379",
+							"type": "peeler",
+							"name": "Éplucheur"
+					},
+					{
+							"id": "5e3ad24dfcf61c18c30ff522",
+							"type": null,
+							"name": "Plaque de cuisson recouverte de papier sulfurisé"
+					},
+					{
+							"id": "57e2674fb7e8697d4b305375",
+							"type": "pan",
+							"name": "Casserole"
+					},
+					{
+							"id": "57e2674fb7e8697d4b305383",
+							"type": "tallsidedpan",
+							"name": "Poêle"
+					},
+					{
+							"id": "57e2674fb7e8697d4b30538d",
+							"type": "saladbowl",
+							"name": "Saladier"
+					},
+					{
+							"id": "57e2674fb7e8697d4b305382",
+							"type": "strainer",
+							"name": "Passoire"
+					}
+			],
+			"uuid": "d508fad5-06ea-493e-ae50-6b5a3cd270cc",
+			"videoLink": null,
+			"websiteUrl": "https://www.hellofresh.fr/recipes/bowl-oriental-freekeh-chevre-frais-and-menthe-65c3967c770ae9faa079acaf",
+			"yields": [
+					{
+							"yields": 1,
+							"ingredients": [
+									{
+											"id": "6405bf6fb9d07cd5d38d7aa9",
+											"amount": 0.5,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405bfbfb0da194777986386",
+											"amount": 0.5,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405bff8b0da194777986443",
+											"amount": 0.5,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405c017b0da1947779864a9",
+											"amount": 0.33,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "64073cf09c6d10cd16eab705",
+											"amount": 45,
+											"unit": "g"
+									},
+									{
+											"id": "6405bfecb9d07cd5d38d7c51",
+											"amount": 0.25,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "6405c011af4af6d531d50dcd",
+											"amount": 0.25,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "64073ba7df6297bb5beef0f8",
+											"amount": 0.5,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "6405bf36b0da1947779861b1",
+											"amount": 0.5,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "64073babdf6297bb5beef104",
+											"amount": 0.5,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "63e51232a0a0603e5708dcc7",
+											"amount": 1,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122081b4b295e66f0256",
+											"amount": 0.25,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "63e5122da0a0603e5708dcc3",
+											"amount": 1,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122fbc1d64f7b96e270d",
+											"amount": 0.5,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122b81b4b295e66f025e",
+											"amount": null,
+											"unit": "selon le goût"
+									}
+							]
+					},
+					{
+							"yields": 2,
+							"ingredients": [
+									{
+											"id": "6405bf6fb9d07cd5d38d7aa9",
+											"amount": 1,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405bfbfb0da194777986386",
+											"amount": 1,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405bff8b0da194777986443",
+											"amount": 1,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405c017b0da1947779864a9",
+											"amount": 0.66,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "64073cf09c6d10cd16eab705",
+											"amount": 80,
+											"unit": "g"
+									},
+									{
+											"id": "6405bfecb9d07cd5d38d7c51",
+											"amount": 0.5,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "6405c011af4af6d531d50dcd",
+											"amount": 0.5,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "64073ba7df6297bb5beef0f8",
+											"amount": 1,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "6405bf36b0da1947779861b1",
+											"amount": 1,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "64073babdf6297bb5beef104",
+											"amount": 1,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "63e51232a0a0603e5708dcc7",
+											"amount": 1,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122081b4b295e66f0256",
+											"amount": 0.5,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "63e5122da0a0603e5708dcc3",
+											"amount": 1.5,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122fbc1d64f7b96e270d",
+											"amount": 1,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122b81b4b295e66f025e",
+											"amount": null,
+											"unit": "selon le goût"
+									}
+							]
+					},
+					{
+							"yields": 3,
+							"ingredients": [
+									{
+											"id": "6405bf6fb9d07cd5d38d7aa9",
+											"amount": 1,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405bfbfb0da194777986386",
+											"amount": 1.5,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405bff8b0da194777986443",
+											"amount": 1.5,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405c017b0da1947779864a9",
+											"amount": 1,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "64073cf09c6d10cd16eab705",
+											"amount": 130,
+											"unit": "g"
+									},
+									{
+											"id": "6405bfecb9d07cd5d38d7c51",
+											"amount": 0.75,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "6405c011af4af6d531d50dcd",
+											"amount": 0.75,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "64073ba7df6297bb5beef0f8",
+											"amount": 1,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "6405bf36b0da1947779861b1",
+											"amount": 1,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "64073babdf6297bb5beef104",
+											"amount": 1,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "63e51232a0a0603e5708dcc7",
+											"amount": 2,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122081b4b295e66f0256",
+											"amount": 0.75,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "63e5122da0a0603e5708dcc3",
+											"amount": 2,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122fbc1d64f7b96e270d",
+											"amount": 1.5,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122b81b4b295e66f025e",
+											"amount": null,
+											"unit": "selon le goût"
+									}
+							]
+					},
+					{
+							"yields": 4,
+							"ingredients": [
+									{
+											"id": "6405bf6fb9d07cd5d38d7aa9",
+											"amount": 2,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405bfbfb0da194777986386",
+											"amount": 2,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405bff8b0da194777986443",
+											"amount": 2,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405c017b0da1947779864a9",
+											"amount": 1.33,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "64073cf09c6d10cd16eab705",
+											"amount": 170,
+											"unit": "g"
+									},
+									{
+											"id": "6405bfecb9d07cd5d38d7c51",
+											"amount": 1,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "6405c011af4af6d531d50dcd",
+											"amount": 1,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "64073ba7df6297bb5beef0f8",
+											"amount": 1,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "6405bf36b0da1947779861b1",
+											"amount": 1,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "64073babdf6297bb5beef104",
+											"amount": 1,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "63e51232a0a0603e5708dcc7",
+											"amount": 3,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122081b4b295e66f0256",
+											"amount": 1,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "63e5122da0a0603e5708dcc3",
+											"amount": 2.5,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122fbc1d64f7b96e270d",
+											"amount": 2,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122b81b4b295e66f025e",
+											"amount": null,
+											"unit": "selon le goût"
+									}
+							]
+					},
+					{
+							"yields": 5,
+							"ingredients": [
+									{
+											"id": "6405bf6fb9d07cd5d38d7aa9",
+											"amount": 2,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405bfbfb0da194777986386",
+											"amount": 2.5,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405bff8b0da194777986443",
+											"amount": 2.5,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405c017b0da1947779864a9",
+											"amount": 1.66,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "64073cf09c6d10cd16eab705",
+											"amount": 210,
+											"unit": "g"
+									},
+									{
+											"id": "6405bfecb9d07cd5d38d7c51",
+											"amount": 1.25,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "6405c011af4af6d531d50dcd",
+											"amount": 1.25,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "64073ba7df6297bb5beef0f8",
+											"amount": 2,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "6405bf36b0da1947779861b1",
+											"amount": 2,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "64073babdf6297bb5beef104",
+											"amount": 2,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "63e51232a0a0603e5708dcc7",
+											"amount": 3,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122081b4b295e66f0256",
+											"amount": 1.25,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "63e5122da0a0603e5708dcc3",
+											"amount": 3.5,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122fbc1d64f7b96e270d",
+											"amount": 2.5,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122b81b4b295e66f025e",
+											"amount": null,
+											"unit": "selon le goût"
+									}
+							]
+					},
+					{
+							"yields": 6,
+							"ingredients": [
+									{
+											"id": "6405bf6fb9d07cd5d38d7aa9",
+											"amount": 2,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405bfbfb0da194777986386",
+											"amount": 3,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405bff8b0da194777986443",
+											"amount": 3,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "6405c017b0da1947779864a9",
+											"amount": 2,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "64073cf09c6d10cd16eab705",
+											"amount": 260,
+											"unit": "g"
+									},
+									{
+											"id": "6405bfecb9d07cd5d38d7c51",
+											"amount": 1.5,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "6405c011af4af6d531d50dcd",
+											"amount": 1.5,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "64073ba7df6297bb5beef0f8",
+											"amount": 2,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "6405bf36b0da1947779861b1",
+											"amount": 2,
+											"unit": "sachet(s)"
+									},
+									{
+											"id": "64073babdf6297bb5beef104",
+											"amount": 2,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "63e51232a0a0603e5708dcc7",
+											"amount": 4,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122081b4b295e66f0256",
+											"amount": 1.5,
+											"unit": "pièce(s)"
+									},
+									{
+											"id": "63e5122da0a0603e5708dcc3",
+											"amount": 4,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122fbc1d64f7b96e270d",
+											"amount": 3,
+											"unit": "cc"
+									},
+									{
+											"id": "63e5122b81b4b295e66f025e",
+											"amount": null,
+											"unit": "selon le goût"
+									}
+							]
+					}
+			]
+		}
+	]
+}

@@ -4,6 +4,9 @@ import Ingredient from '../app/core/database/cooking/models/Ingredient';
 import { Yield } from '../app/core/database/cooking/models/Yield';
 import { YieldIngredient } from '../app/core/database/cooking/models/YieldIngredient';
 import { Step } from '../app/core/database/cooking/models/Step';
+import { ApplicationError } from '../app/core/utils/error/ApplicationError';
+import { Logger } from '../app/core/utils/logger/Logger';
+import { Tag } from '../app/core/database/cooking/models/Tag';
 
 interface IRaw {
 	items: Array<IRecipeRaw>
@@ -24,7 +27,13 @@ interface IRecipeRaw {
 	// steps: recipeRawData.steps,
 	steps: Array<IStep>,
 	updatedAt: Date,
+	tags: Array<ITag>,
+	cuisines: Array<ITag>,
 	yields: Array<IYield>
+}
+
+interface ITag {
+	name: string,
 }
 
 interface IIngredientRaw {
@@ -56,17 +65,16 @@ interface IYieldIngredient {
 }
 
 export async function importRecipes() {
-	console.log('import recipes');
+	Logger.write('Importing recipes...');
 	const raw = JSON.parse(readFileSync('src/data/recipes-1.json', 'utf-8')) as IRaw;
-	const recipes = raw.items.sort((a, b) => {
+	const rawRecipes = raw.items.sort((a, b) => {
 		if (a.updatedAt > b.updatedAt) return -1;
 		if (a.updatedAt < b.updatedAt) return 1;
 		return 0;
 	});
-	const slugs = [];
 	let index = 0;
-	process.stdout.write(`current progress: ${index}/${recipes.length}`);
-	for (const recipeRawData of recipes) {
+	Logger.write(`Importing recipes: ${index}/${rawRecipes.length}`);
+	for (const recipeRawData of rawRecipes) {
 		if (!recipeRawData.active) continue;
 		// if (index > 5) continue;
 		const recipeData = {
@@ -82,35 +90,28 @@ export async function importRecipes() {
 			updatedAt: recipeRawData.updatedAt,
 		};
 
-		const r = await Recipe.findOne({
+		const [recipe] = await Recipe.findOrCreate({
 			where: { slug: recipeData.slug },
+			defaults: recipeData,
 		});
-		if (r) {
-			index++;
-			process.stdout.clearLine(0);
-			process.stdout.cursorTo(0);
-			process.stdout.write(`current progress: ${index}/${recipes.length}`);
-			continue;
-		}
-		const recipe = await Recipe.create(recipeData);
-		slugs.push(recipeData.slug);
 
-		await createIngredients(recipeRawData);
-		await Promise.all([createYields(recipe, recipeRawData), createSteps(recipe, recipeRawData)]);
+		await createIngredients(recipeRawData.ingredients);
+		await Promise.all([
+			createYields(recipe, recipeRawData),
+			createSteps(recipe, recipeRawData.steps),
+			createTags(recipe, [...recipeRawData.cuisines, ...recipeRawData.tags]),
+		]);
 
 		// progress
 		index++;
-		process.stdout.clearLine(0);
-		process.stdout.cursorTo(0);
-		process.stdout.write(`current progress: ${index}/${recipes.length}`);
+		Logger.write(`Importing recipes: ${index}/${rawRecipes.length}`, true);
 	}
-	process.stdout.write('\n');
 
 }
 
-async function createIngredients(recipeRawData: IRecipeRaw) {
+async function createIngredients(ingredients: Array<IIngredientRaw>) {
 	const promises = [];
-	for (const ingredientData of recipeRawData.ingredients) {
+	for (const ingredientData of ingredients) {
 		promises.push(createIngredient(ingredientData));
 	}
 	await Promise.all(promises);
@@ -143,43 +144,50 @@ async function createYields(recipe: Recipe, recipeRawData: IRecipeRaw) {
 
 async function createYield(recipe: Recipe, yieldData: IYield) {
 	const defaultYieldData = {
-		id: `${recipe.slug}-${yieldData.yields}`,
 		yields: yieldData.yields,
-		recipeSlug: recipe.slug,
+		recipeId: recipe.id,
 	};
 	const [yieldRecord] = await Yield.findOrCreate({
-		where: { id: `${recipe.slug}-${yieldData.yields}` },
+		where: {
+			recipeId: recipe.id,
+			yields: yieldData.yields,
+		},
 		defaults: defaultYieldData,
 	});
 
-	await createYieldIngredients(yieldRecord, yieldData);
+	await createYieldIngredients(yieldRecord, yieldData.ingredients);
 }
 
-async function createYieldIngredients(yieldRecord: Yield, yieldData: IYield) {
+async function createYieldIngredients(yieldRecord: Yield, ingredients: Array<IYieldIngredient>) {
 	const promises = [];
-	for (const yieldIngredient of yieldData.ingredients) {
+	for (const yieldIngredient of ingredients) {
 		promises.push(createYieldIngredient(yieldRecord, yieldIngredient));
 	}
 	await Promise.all(promises);
 }
 
-function createYieldIngredient(yieldRecord: Yield, yieldIngredient: IYieldIngredient) {
+async function createYieldIngredient(yieldRecord: Yield, yieldIngredient: IYieldIngredient) {
+	const ingredient = await Ingredient.findOne({
+		where: { slug: yieldIngredient.slug },
+	});
+	if (!ingredient) throw new ApplicationError({ message: `Ingredient ${yieldIngredient.slug} not found` });
 	const defaultYieldIngredientData = {
-		id: `${yieldRecord.id}-${yieldIngredient.slug}`,
 		amount: yieldIngredient.amount,
 		unit: yieldIngredient.unit,
 		yieldId: yieldRecord.id,
-		ingredientSlug: yieldIngredient.slug,
+		ingredientId: ingredient.id,
 	};
 	return YieldIngredient.findOrCreate({
-		where: { id: `${yieldRecord.id}-${yieldIngredient.slug}` },
+		where: {
+			yieldId: yieldRecord.id,
+			ingredientId: ingredient.id,
+		},
 		defaults: defaultYieldIngredientData,
 	});
 }
 
-async function createSteps(recipe: Recipe, recipeRawData: IRecipeRaw) {
+async function createSteps(recipe: Recipe, steps: Array<IStep>) {
 	const promises = [];
-	const steps = recipeRawData.steps;
 	for (const stepData of steps) {
 		promises.push(createStep(recipe, stepData));
 	}
@@ -188,14 +196,39 @@ async function createSteps(recipe: Recipe, recipeRawData: IRecipeRaw) {
 
 function createStep(recipe: Recipe, stepData: IStep) {
 	const defaultStepData = {
-		id: `${recipe.slug}-${stepData.index}`,
+		index: stepData.index,
 		instructions: stepData.instructions,
-		recipeSlug: recipe.slug,
+		recipeId: recipe.id,
 	};
 	return Step.findOrCreate({
-		where: { id: `${recipe.slug}-${stepData.index}` },
+		where: {
+			recipeId: recipe.id,
+			index: stepData.index,
+			instructions: stepData.instructions,
+		},
 		defaults: defaultStepData,
 	});
+}
+
+async function createTags(recipe: Recipe, tags: Array<ITag>) {
+	const promises = [];
+	for (const tag of tags) {
+		promises.push(createTag(recipe, tag));
+	}
+	await Promise.all(promises);
+}
+
+async function createTag(recipe: Recipe, tagData: ITag) {
+	const defaultTagData = {
+		name: tagData.name,
+	};
+	const [tag] = await Tag.findOrCreate({
+		where: {
+			name: tagData.name,
+		},
+		defaults: defaultTagData,
+	});
+	recipe.addTag(tag.id);
 }
 
 function parseDuration(duration: string) {
