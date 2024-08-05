@@ -15,12 +15,11 @@ export class CommandManager {
 
 	/**
 	 * Register bot commands
-	 * @param client
 	 */
-	public static async register(client: Client) {
+	public static async register() {
 		Logger.write('Registering commands...');
 		const commandsToRegister = await CommandManager.getCommandsToRegister();
-		await CommandManager.registerCommands(client, commandsToRegister);
+		await CommandManager.registerCommands(commandsToRegister);
 		Logger.write('✔ Commands registered successfully');
 	}
 
@@ -115,7 +114,7 @@ export class CommandManager {
 	 * @param client
 	 * @param commands commands to register
 	 */
-	private static async registerCommands(client: Client, commands: Array<RESTPostAPIChatInputApplicationCommandsJSONBody>) {
+	private static async registerCommands(commands: Array<RESTPostAPIChatInputApplicationCommandsJSONBody>) {
 		const botToken = process.env.BOT_TOKEN;
 		if (!botToken) throw new ApplicationFatalError({ message: 'Missing bot token' });
 		const clientId = process.env.BOT_ID;
