@@ -3,6 +3,7 @@ import { ISubcommand } from '../../../core/bot/commands/ISubcommand';
 import { Subcommand } from '../../../core/bot/commands/Subcommand';
 import { Recipe } from '../../../core/database/cooking/models/Recipe';
 import { FindOptions, Op, WhereOptions } from 'sequelize';
+import { adjectives, animals, colors, uniqueNamesGenerator } from 'unique-names-generator';
 
 async function execute(interaction: ChatInputCommandInteraction) {
 	const nameSearchExpr = interaction.options.getString('nom');
@@ -35,17 +36,33 @@ async function execute(interaction: ChatInputCommandInteraction) {
 	const recipes = await Recipe.findAll(findOptions);
 
 	const count = recipes.length;
-	let answer = '';
+	let replyStr = '';
 
 	if (count) {
 		const list = recipes.map(recipe => recipe.toJSON().name);
-		answer = `Voici la liste des recettes correspondant à ta recherche "${nameSearchExpr}" : (${count})`;
-		list.forEach(recipe => answer += `\n- ${recipe}`);
+		let partialCount = 0;
+		const baseAnswer = `Voici la liste des recettes correspondant à ta recherche "${nameSearchExpr}" :`;
+		let recipeList = '';
+		list.forEach(recipe => {
+			const str = `\n- ${recipe}`;
+			if (baseAnswer.length + recipeList.length + str.length < 1900) {
+				recipeList += str;
+				partialCount++;
+			}
+		});
+		replyStr = `${baseAnswer} (${partialCount < count ? partialCount + '/' + count : count})${recipeList}`;
 	} else {
-		answer = `Je n'ai trouvé aucune recette correspondant à ta recherche "${nameSearchExpr}"`;
+		replyStr = `Je n'ai trouvé aucune recette correspondant à ta recherche "${nameSearchExpr}"`;
 	}
 
-	await interaction.reply(answer);
+	try {
+		await interaction.reply(replyStr);
+	} catch (error) {
+		const code = uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals], separator: '-' });
+		console.log(code);
+		console.log(error);
+		await interaction.reply(`Une erreur est survenue lors de l'exécution de ta commande.\nIdentifiant de l'erreur : ${code}`);
+	}
 }
 
 export const subcommandInfo: ISubcommand = new Subcommand(
