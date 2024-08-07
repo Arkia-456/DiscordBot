@@ -25,6 +25,7 @@ const RecipeAttributes = {
 		type: DataTypes.STRING,
 		allowNull: false,
 		unique: true,
+		fields: ['slug'],
 	},
 	createdAt: {
 		type: DataTypes.DATE,

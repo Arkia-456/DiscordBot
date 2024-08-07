@@ -14,6 +14,7 @@ const IngredientAttributes = {
 		type: DataTypes.STRING,
 		allowNull: false,
 		unique: true,
+		fields: ['slug'],
 	},
 	name: {
 		type: DataTypes.STRING,
