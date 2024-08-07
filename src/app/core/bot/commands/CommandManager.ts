@@ -102,12 +102,7 @@ export class CommandManager {
 	 * @returns command
 	 */
 	private static async getCommandFromFile(filePath: string) {
-		let commandInfo;
-		try {
-			commandInfo = (await import(filePath)).commandInfo as ICommand;
-		} catch (error) {
-			console.error(error);
-		}
+		const commandInfo = (await import(filePath)).commandInfo as ICommand;
 		if (!commandInfo?.slashCommandBuilder) {
 			Logger.write(`Command ${filePath} is not a slash command`);
 			return;

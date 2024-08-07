@@ -44,6 +44,7 @@ export class Subcommand {
 			case ApplicationCommandOptionType.String: {
 				const option = new SlashCommandStringOption().setName(data.name).setDescription(data.description);
 				if (data.choices) option.addChoices(data.choices);
+				if (data.minLength) option.setMinLength(data.minLength);
 				subcommand.addStringOption(option);
 				break;
 			}

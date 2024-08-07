@@ -5,4 +5,5 @@ export interface ICommandOption {
 	name: string;
 	description: string;
 	choices?: Array<ApplicationCommandOptionChoiceData<string>>;
+	minLength?: number;
 }
