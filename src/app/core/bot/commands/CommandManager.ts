@@ -1,4 +1,4 @@
-import { ApplicationCommand, ChatInputCommandInteraction, Client, REST, RESTPostAPIChatInputApplicationCommandsJSONBody, Routes } from 'discord.js';
+import { ApplicationCommand, ChatInputCommandInteraction, REST, RESTPostAPIChatInputApplicationCommandsJSONBody, Routes } from 'discord.js';
 import { readdir } from 'fs/promises';
 import { ICommand } from './ICommand';
 import path from 'path';
@@ -15,12 +15,11 @@ export class CommandManager {
 
 	/**
 	 * Register bot commands
-	 * @param client
 	 */
-	public static async register(client: Client) {
+	public static async register() {
 		Logger.write('Registering commands...');
-		const commandsToRegister = await CommandManager.getCommandsToRegister();
-		await CommandManager.registerCommands(client, commandsToRegister);
+		const [guildCommandsToRegister, globalCommandsToRegister] = await CommandManager.getCommandsToRegister();
+		await CommandManager.registerCommands(guildCommandsToRegister, globalCommandsToRegister);
 		Logger.write('✔ Commands registered successfully');
 	}
 
@@ -36,17 +35,20 @@ export class CommandManager {
 		} catch (error) {
 			throw new ApplicationFatalError({ message: 'Category getting failed', error: error });
 		}
-		const commandsToCheck: Array<Promise<Array<RESTPostAPIChatInputApplicationCommandsJSONBody>>> = [];
-		categories.forEach(c => {
-			if (c.endsWith('.js') || c.endsWith('.js.map')) return;
-			const category = {
-				name: c,
-				path: path.join(categoriesPath, c),
+		const commandsToCheck: Array<Promise<void>> = [];
+		const guildCommandsToRegister: Array<RESTPostAPIChatInputApplicationCommandsJSONBody> = [];
+		const globalCommandsToRegister: Array<RESTPostAPIChatInputApplicationCommandsJSONBody> = [];
+		for (const category of categories) {
+			if (category.endsWith('.js') || category.endsWith('.js.map')) continue;
+			const c = {
+				name: category,
+				path: path.join(categoriesPath, category),
 			};
-			commandsToCheck.push(CommandManager.getCommandsFromCategory(category));
-		});
+			commandsToCheck.push(CommandManager.getCommandsFromCategory(c, guildCommandsToRegister, globalCommandsToRegister));
+		}
 
-		return (await Promise.all(commandsToCheck)).flat();
+		await Promise.all(commandsToCheck);
+		return [guildCommandsToRegister, globalCommandsToRegister];
 	}
 
 	/**
@@ -54,9 +56,9 @@ export class CommandManager {
 	 * @param category object representing a category, with a name and its path
 	 * @returns array of category commands
 	 */
-	private static async getCommandsFromCategory(category: {name: string, path: string}) {
+	private static async getCommandsFromCategory(category: {name: string, path: string}, guildCommandsToRegister: Array<RESTPostAPIChatInputApplicationCommandsJSONBody>, globalCommandsToRegister: Array<RESTPostAPIChatInputApplicationCommandsJSONBody>) {
 		const commandFiles: Array<string> = [];
-		const commands: Array<RESTPostAPIChatInputApplicationCommandsJSONBody> = [];
+		const promises: Array<Promise<void>> = [];
 
 		try {
 			const files = await readdir(category.path);
@@ -69,14 +71,13 @@ export class CommandManager {
 		Logger.write(`Importing commands: ${fileIndex}/${commandFiles.length}`);
 		for (const file of commandFiles) {
 			try {
-				const commandInfoJson = await CommandManager.setCommandFromFile(path.join(category.path, file));
-				if (commandInfoJson) commands.push(commandInfoJson);
+				promises.push(CommandManager.setCommandFromFile(path.join(category.path, file), guildCommandsToRegister, globalCommandsToRegister));
 			} finally {
 				fileIndex++;
 				Logger.write(`Importing commands: ${fileIndex}/${commandFiles.length}`, true);
 			}
 		}
-		return commands;
+		await Promise.all(promises);
 	}
 
 	/**
@@ -84,11 +85,15 @@ export class CommandManager {
 	 * @param filePath
 	 * @returns command in JSON format
 	 */
-	private static async setCommandFromFile(filePath: string) {
+	private static async setCommandFromFile(filePath: string, guildCommandsToRegister: Array<RESTPostAPIChatInputApplicationCommandsJSONBody>, globalCommandsToRegister: Array<RESTPostAPIChatInputApplicationCommandsJSONBody>) {
 		const commandInfo = await CommandManager.getCommandFromFile(filePath);
 		if (!commandInfo) return;
 		CommandManager.commands.set(commandInfo.slashCommandBuilder.name, commandInfo);
-		return commandInfo.slashCommandBuilder.toJSON();
+		if (commandInfo.isPrivateGuildCommand) {
+			guildCommandsToRegister.push(commandInfo.slashCommandBuilder.toJSON());
+		} else {
+			globalCommandsToRegister.push(commandInfo.slashCommandBuilder.toJSON());
+		}
 	}
 
 	/**
@@ -97,12 +102,7 @@ export class CommandManager {
 	 * @returns command
 	 */
 	private static async getCommandFromFile(filePath: string) {
-		let commandInfo;
-		try {
-			commandInfo = (await import(filePath)).commandInfo as ICommand;
-		} catch (error) {
-			console.error(error);
-		}
+		const commandInfo = (await import(filePath)).commandInfo as ICommand;
 		if (!commandInfo?.slashCommandBuilder) {
 			Logger.write(`Command ${filePath} is not a slash command`);
 			return;
@@ -115,26 +115,67 @@ export class CommandManager {
 	 * @param client
 	 * @param commands commands to register
 	 */
-	private static async registerCommands(client: Client, commands: Array<RESTPostAPIChatInputApplicationCommandsJSONBody>) {
+	private static async registerCommands(guildCommandsToRegister: Array<RESTPostAPIChatInputApplicationCommandsJSONBody>, globalCommandsToRegister: Array<RESTPostAPIChatInputApplicationCommandsJSONBody>) {
 		const botToken = process.env.BOT_TOKEN;
 		if (!botToken) throw new ApplicationFatalError({ message: 'Missing bot token' });
 		const clientId = process.env.BOT_ID;
 		if (!clientId) throw new ApplicationFatalError({ message: 'Client application ID not found' });
 		const rest = new REST().setToken(botToken);
 
-		const applicationCommands = await rest.get(Routes.applicationCommands(clientId)) as Array<ApplicationCommand>;
-
-		await Promise.all(CommandManager.deleteCommands(applicationCommands, commands, rest, clientId));
-
 		try {
-			const data = await rest.put(
-				Routes.applicationCommands(clientId),
-				{ body: commands },
-			);
-			Logger.write(`Successfully reloaded ${Array.isArray(data) ? data.length : '#ERROR:NotAnArray#'} application slash commands.`);
+			let count = 0;
+			const registeredGlobalCommands = await CommandManager.registerGlobalCommands(rest, clientId, globalCommandsToRegister);
+			const registeredGuildCommands = await CommandManager.registerGuildsCommands(rest, clientId, guildCommandsToRegister);
+
+			if (Array.isArray(registeredGlobalCommands)) count += registeredGlobalCommands.length;
+			if (Array.isArray(registeredGuildCommands)) count += registeredGuildCommands.length;
+			Logger.write(`Successfully reloaded ${count} application slash commands.`);
 		} catch (error) {
 			throw new ApplicationFatalError({ message: 'Impossible to register commands against API', error: error });
 		}
+	}
+
+	/**
+	 * Register global commands
+	 * @param rest
+	 * @param clientId
+	 * @param globalCommandsToRegister
+	 * @returns array of registered global commands
+	 */
+	private static async registerGlobalCommands(rest: REST, clientId: string, globalCommandsToRegister: Array<RESTPostAPIChatInputApplicationCommandsJSONBody>) {
+		const applicationCommands = await rest.get(Routes.applicationCommands(clientId)) as Array<ApplicationCommand>;
+		await Promise.all(CommandManager.deleteCommands(applicationCommands, globalCommandsToRegister, rest, clientId));
+		return rest.put(Routes.applicationCommands(clientId), { body: globalCommandsToRegister });
+	}
+
+	/**
+	 * Register guilds commands
+	 * @param rest
+	 * @param clientId
+	 * @param guildCommandsToRegister
+	 * @returns array of registered guild commands
+	 */
+	private static async registerGuildsCommands(rest: REST, clientId: string, guildCommandsToRegister: Array<RESTPostAPIChatInputApplicationCommandsJSONBody>) {
+		const privateGuildIds = process.env.PRIVATE_GUILD_IDS?.split(',');
+		const promises: Array<Promise<unknown>> = [];
+		if (privateGuildIds) {
+			privateGuildIds.forEach(guildId => promises.push(CommandManager.registerGuildCommands(rest, clientId, guildId, guildCommandsToRegister)));
+		}
+		return (await Promise.all(promises)).flat();
+	}
+
+	/**
+	 * Register commands in one guild
+	 * @param rest
+	 * @param clientId
+	 * @param guildId
+	 * @param guildCommandsToRegister
+	 * @returns array of registered guild commands
+	 */
+	private static async registerGuildCommands(rest: REST, clientId: string, guildId: string, guildCommandsToRegister: Array<RESTPostAPIChatInputApplicationCommandsJSONBody>) {
+		const applicationCommands = await rest.get(Routes.applicationGuildCommands(clientId, guildId)) as Array<ApplicationCommand>;
+		await Promise.all(applicationCommands.map(command => rest.delete(Routes.applicationGuildCommand(clientId, guildId, command.id))));
+		return rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: guildCommandsToRegister });
 	}
 
 	/**

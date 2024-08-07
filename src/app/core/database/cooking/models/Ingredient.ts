@@ -1,6 +1,8 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+import { CreationOptional, DataTypes, Model, Sequelize } from 'sequelize';
 
-export default class Ingredient extends Model {}
+export default class Ingredient extends Model {
+	declare id: CreationOptional<number>;
+}
 
 const IngredientAttributes = {
 	id: {
@@ -12,6 +14,7 @@ const IngredientAttributes = {
 		type: DataTypes.STRING,
 		allowNull: false,
 		unique: true,
+		fields: ['slug'],
 	},
 	name: {
 		type: DataTypes.STRING,

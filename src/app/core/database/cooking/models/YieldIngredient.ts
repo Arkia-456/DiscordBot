@@ -1,10 +1,11 @@
-import { DataTypes, Model, NonAttribute, Sequelize } from 'sequelize';
+import { CreationOptional, DataTypes, Model, NonAttribute, Sequelize } from 'sequelize';
 import Ingredient from './Ingredient';
 
 export class YieldIngredient extends Model {
-	declare id: string;
+	declare id: CreationOptional<number>;
 	declare amount: number;
 	declare unit: string;
+	declare yieldId: number;
 	declare ingredient?: NonAttribute<Ingredient>;
 }
 

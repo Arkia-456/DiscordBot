@@ -1,31 +1,25 @@
 import { CreationOptional, DataTypes, Model, Sequelize } from 'sequelize';
 
-export class Step extends Model {
+export class Tag extends Model {
 	declare id: CreationOptional<number>;
-	declare index: number;
-	declare instructions: string;
-	declare recipeId: number;
+	declare name: string;
 }
 
-const StepAttributes = {
+const TagAttributes = {
 	id: {
 		type: DataTypes.INTEGER,
 		autoIncrement: true,
 		primaryKey: true,
 	},
-	index: {
-		type: DataTypes.INTEGER,
-		allowNull: false,
-	},
-	instructions: {
-		type: DataTypes.TEXT,
+	name: {
+		type: DataTypes.STRING,
 		allowNull: false,
 	},
 };
 
 export function initModel(sequelize: Sequelize) {
-	Step.init(StepAttributes, {
+	Tag.init(TagAttributes, {
 		sequelize,
-		tableName: 'step',
+		tableName: 'tag',
 	});
 }

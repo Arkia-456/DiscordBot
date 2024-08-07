@@ -1,6 +1,8 @@
-import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from 'sequelize';
+import { BelongsToManyAddAssociationMixin, CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from 'sequelize';
+import { Tag } from './Tag';
 
 export class Recipe extends Model<InferAttributes<Recipe>, InferCreationAttributes<Recipe>> {
+	declare id: CreationOptional<number>;
 	declare slug: string;
 	declare createdAt: CreationOptional<Date>;
 	declare updatedAt: CreationOptional<Date>;
@@ -9,6 +11,8 @@ export class Recipe extends Model<InferAttributes<Recipe>, InferCreationAttribut
 	declare name: string;
 	declare preparationTime: number;
 	declare totalTime: number;
+
+	declare addTag: BelongsToManyAddAssociationMixin<Tag, number>;
 }
 
 const RecipeAttributes = {
@@ -21,6 +25,7 @@ const RecipeAttributes = {
 		type: DataTypes.STRING,
 		allowNull: false,
 		unique: true,
+		fields: ['slug'],
 	},
 	createdAt: {
 		type: DataTypes.DATE,
