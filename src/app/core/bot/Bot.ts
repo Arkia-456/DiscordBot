@@ -20,7 +20,7 @@ export class Bot {
 	 */
 	public async init() {
 		Logger.write('Initializing bot...');
-		await CommandManager.register(this.client);
+		await CommandManager.register();
 		await EventManager.register(this.client);
 		Logger.write('✔ Bot initialized successfully');
 	}
