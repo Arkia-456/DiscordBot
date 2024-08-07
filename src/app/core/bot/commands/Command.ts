@@ -11,6 +11,7 @@ export class Command {
 	private commandPath: string | undefined;
 	private execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
 	private subcommands: Map<string, ISubcommand> = new Map();
+	private isPrivateGuildCommand: boolean | undefined;
 
 	constructor(functionality: string, name: string, description: string, execute: (interaction: ChatInputCommandInteraction) => Promise<void>, option?: ICommandParam) {
 		this.functionality = functionality;
@@ -18,12 +19,14 @@ export class Command {
 		this.description = description;
 		this.execute = execute;
 		if (option?.commandPath) this.commandPath = option.commandPath;
+		if (option?.isPrivateGuildCommand) this.isPrivateGuildCommand = option.isPrivateGuildCommand;
 	}
 
 	get commandInfo() {
 		return {
 			slashCommandBuilder: this.buildCommand(),
 			execute: (interaction: ChatInputCommandInteraction) => this.executeCommand(interaction),
+			isPrivateGuildCommand: this.isPrivateGuildCommand,
 		};
 	}
 

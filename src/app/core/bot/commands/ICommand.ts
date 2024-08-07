@@ -3,4 +3,5 @@ import { ChatInputCommandInteraction, SlashCommandBuilder, SlashCommandSubcomman
 export interface ICommand {
 	slashCommandBuilder: SlashCommandBuilder|SlashCommandSubcommandsOnlyBuilder;
 	execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
+	isPrivateGuildCommand?: boolean;
 }
