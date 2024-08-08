@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, ChatInputCommandInteraction } from 'discord.js';
+import { ApplicationCommandOptionType, ChatInputCommandInteraction, EmbedAuthorOptions, EmbedBuilder } from 'discord.js';
 import { ISubcommand } from '../../../core/bot/commands/ISubcommand';
 import { Subcommand } from '../../../core/bot/commands/Subcommand';
 import { Recipe } from '../../../core/database/cooking/models/Recipe';
@@ -36,27 +36,39 @@ async function execute(interaction: ChatInputCommandInteraction) {
 	const recipes = await Recipe.findAll(findOptions);
 
 	const count = recipes.length;
-	let replyStr = '';
+	let partialCount = 0;
+	const baseAnswer = `${nameSearchExpr ? `nom : ${nameSearchExpr}` : ''}`;
+	let recipeList = '';
+
+	const embedHeader: EmbedAuthorOptions = {
+		name: '',
+	};
 
 	if (count) {
 		const list = recipes.map(recipe => recipe.toJSON().name);
-		let partialCount = 0;
-		const baseAnswer = `Voici la liste des recettes correspondant à ta recherche "${nameSearchExpr}" :`;
-		let recipeList = '';
 		list.forEach(recipe => {
 			const str = `\n- ${recipe}`;
-			if (baseAnswer.length + recipeList.length + str.length < 1900) {
+			if (recipeList.length + str.length < 4096) {
 				recipeList += str;
 				partialCount++;
 			}
 		});
-		replyStr = `${baseAnswer} (${partialCount < count ? partialCount + '/' + count : count})${recipeList}`;
+		embedHeader.name = `Résultats de la recherche (${partialCount < count ? partialCount + '/' + count : count})`;
 	} else {
-		replyStr = `Je n'ai trouvé aucune recette correspondant à ta recherche "${nameSearchExpr}"`;
+		embedHeader.name = 'Résultats de la recherche (0)';
 	}
 
+	const embed = new EmbedBuilder();
+	if (embedHeader.name) embed.setAuthor(embedHeader);
+	if (recipeList) embed.setDescription(recipeList);
+	embed.setFooter({ text: baseAnswer })
+		.setColor('#eba123');
+	const replyOptions = {
+		embeds: [embed],
+	};
+
 	try {
-		await interaction.reply(replyStr);
+		await interaction.reply(replyOptions);
 	} catch (error) {
 		const code = uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals], separator: '-' });
 		console.log(code);
