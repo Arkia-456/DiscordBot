@@ -17,7 +17,7 @@ const YieldIngredientAttributes = {
 		primaryKey: true,
 	},
 	amount: {
-		type: DataTypes.DECIMAL,
+		type: DataTypes.DECIMAL(10, 2),
 	},
 	unit: {
 		type: DataTypes.STRING,
