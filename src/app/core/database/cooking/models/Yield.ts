@@ -6,6 +6,7 @@ export class Yield extends Model {
 	declare yields: number;
 	declare recipeId: string;
 	declare ingredients?: NonAttribute<YieldIngredient[]>;
+	declare YieldIngredients?: Array<YieldIngredient>;
 }
 
 const YieldAttributes = {

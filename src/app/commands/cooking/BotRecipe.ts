@@ -67,6 +67,12 @@ export class BotRecipe {
 			});
 		}
 
+		if (count === 1) {
+			return {
+				embeds: [BotRecipe.prepareReplySingleRecipe(recipes[0])],
+			};
+		}
+
 		const header = `Résultats de la recherche (${partialCount < count ? partialCount + '/' + count : count})`;
 
 		const footer: EmbedFooterOptions = {
@@ -82,6 +88,22 @@ export class BotRecipe {
 		return {
 			embeds: [embed],
 		};
+	}
+
+	private static prepareReplySingleRecipe(recipe: Recipe) {
+		const embed = new EmbedBuilder()
+			.setTitle(recipe.name)
+			.setDescription(`${recipe.headline}\r\n${recipe.description}\r\nPrep time : ${recipe.preparationTime}\nTotal time : ${recipe.totalTime}`);
+
+		if (recipe.Yields) {
+			recipe.Yields.forEach(y => {
+				embed.addFields(
+					[{ name: `Parts : ${y.yields}`, value: y.YieldIngredients?.map(yi => `${yi.amount ?? ''} ${yi.unit ?? ''} ${yi.Ingredient?.name}`.trim()).join('\n') ?? '' }],
+				);
+			});
+		}
+
+		return embed;
 	}
 
 }
