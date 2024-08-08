@@ -228,7 +228,9 @@ async function createTag(recipe: Recipe, tagData: ITag) {
 		},
 		defaults: defaultTagData,
 	});
-	recipe.addTag(tag.id);
+	recipe.addTag(tag.id, {
+		ignoreDuplicates: true,
+	});
 }
 
 function parseDuration(duration: string) {
