@@ -204,7 +204,6 @@ function createStep(recipe: Recipe, stepData: IStep) {
 		where: {
 			recipeId: recipe.id,
 			index: stepData.index,
-			instructions: stepData.instructions,
 		},
 		defaults: defaultStepData,
 	});
