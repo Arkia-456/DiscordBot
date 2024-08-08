@@ -1,7 +1,11 @@
 import { FindOptions, Op, WhereOptions } from 'sequelize';
 import { Recipe } from '../../core/database/cooking/models/Recipe';
-import { EmbedAuthorOptions, EmbedBuilder, EmbedFooterOptions } from 'discord.js';
+import { EmbedBuilder, EmbedFooterOptions } from 'discord.js';
 import { BotConstants } from '../../core/bot/BotConstants';
+import { Step } from '../../core/database/cooking/models/Step';
+import { Yield } from '../../core/database/cooking/models/Yield';
+import { YieldIngredient } from '../../core/database/cooking/models/YieldIngredient';
+import Ingredient from '../../core/database/cooking/models/Ingredient';
 
 export interface BotRecipeSearchOptions {
 	nameSearchExpr: string | null;
@@ -12,7 +16,24 @@ export class BotRecipe {
 	static readonly primaryColor = '#eba123';
 
 	static searchRecipes(options: BotRecipeSearchOptions) {
-		const findOptions: FindOptions = {};
+		const findOptions: FindOptions = {
+			include: [
+				{
+					model: Yield,
+					include: [
+						{
+							model: YieldIngredient,
+							include: [Ingredient],
+						},
+					],
+				},
+				Step,
+			],
+			order: [
+				[Yield, 'yields', 'ASC'],
+				[Step, 'index', 'ASC'],
+			],
+		};
 		const whereOptions: WhereOptions = {};
 
 		if (options.nameSearchExpr) {
@@ -46,16 +67,14 @@ export class BotRecipe {
 			});
 		}
 
-		const header: EmbedAuthorOptions = {
-			name: `Résultats de la recherche (${partialCount < count ? partialCount + '/' + count : count})`,
-		};
+		const header = `Résultats de la recherche (${partialCount < count ? partialCount + '/' + count : count})`;
 
 		const footer: EmbedFooterOptions = {
 			text: `${options.nameSearchExpr ? `nom : ${options.nameSearchExpr}` : ''}`,
 		};
 
 		const embed = new EmbedBuilder()
-			.setAuthor(header)
+			.setTitle(header)
 			.setColor(BotRecipe.primaryColor);
 		if (recipeList) embed.setDescription(recipeList);
 		if (footer.text) embed.setFooter(footer);
