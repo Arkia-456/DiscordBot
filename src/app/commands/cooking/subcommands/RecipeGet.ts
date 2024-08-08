@@ -1,51 +1,24 @@
 import { ApplicationCommandOptionType, ChatInputCommandInteraction } from 'discord.js';
 import { ISubcommand } from '../../../core/bot/commands/ISubcommand';
 import { Subcommand } from '../../../core/bot/commands/Subcommand';
-import { Recipe } from '../../../core/database/cooking/models/Recipe';
-import { FindOptions, Op, WhereOptions } from 'sequelize';
+import { adjectives, animals, colors, uniqueNamesGenerator } from 'unique-names-generator';
+import { BotRecipe } from '../BotRecipe';
 
 async function execute(interaction: ChatInputCommandInteraction) {
 	const nameSearchExpr = interaction.options.getString('nom');
+	const searchOptions = { nameSearchExpr: nameSearchExpr };
+	const recipes = await BotRecipe.searchRecipes(searchOptions);
 
-	const whereOptions: WhereOptions = {};
-	const findOptions: FindOptions = {
-		attributes: ['name'],
-	};
+	const replyOptions = BotRecipe.prepareReply(searchOptions, recipes);
 
-	if (nameSearchExpr) {
-		const orArray = nameSearchExpr.split(';');
-		whereOptions.name = {
-			[Op.or]: [],
-		};
-		if (orArray.length) {
-			orArray.forEach(orPredicate => {
-				whereOptions.name[Op.or].push({
-					[Op.and]: orPredicate.split(',').map(str => {
-						return {
-							[Op.like]: `%${str.trim()}%`,
-						};
-					}),
-				});
-			});
-		}
+	try {
+		await interaction.reply(replyOptions);
+	} catch (error) {
+		const code = uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals], separator: '-' });
+		console.log(code);
+		console.log(error);
+		await interaction.reply(`Une erreur est survenue lors de l'exécution de ta commande.\nIdentifiant de l'erreur : ${code}`);
 	}
-
-	findOptions.where = whereOptions;
-
-	const recipes = await Recipe.findAll(findOptions);
-
-	const count = recipes.length;
-	let answer = '';
-
-	if (count) {
-		const list = recipes.map(recipe => recipe.toJSON().name);
-		answer = `Voici la liste des recettes correspondant à ta recherche "${nameSearchExpr}" : (${count})`;
-		list.forEach(recipe => answer += `\n- ${recipe}`);
-	} else {
-		answer = `Je n'ai trouvé aucune recette correspondant à ta recherche "${nameSearchExpr}"`;
-	}
-
-	await interaction.reply(answer);
 }
 
 export const subcommandInfo: ISubcommand = new Subcommand(

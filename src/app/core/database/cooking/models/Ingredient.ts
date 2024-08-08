@@ -2,6 +2,7 @@ import { CreationOptional, DataTypes, Model, Sequelize } from 'sequelize';
 
 export default class Ingredient extends Model {
 	declare id: CreationOptional<number>;
+	declare name: string;
 }
 
 const IngredientAttributes = {

@@ -7,6 +7,7 @@ export class YieldIngredient extends Model {
 	declare unit: string;
 	declare yieldId: number;
 	declare ingredient?: NonAttribute<Ingredient>;
+	declare Ingredient?: NonAttribute<Ingredient>;
 }
 
 const YieldIngredientAttributes = {
@@ -16,7 +17,7 @@ const YieldIngredientAttributes = {
 		primaryKey: true,
 	},
 	amount: {
-		type: DataTypes.DECIMAL,
+		type: DataTypes.DECIMAL(10, 2),
 	},
 	unit: {
 		type: DataTypes.STRING,
