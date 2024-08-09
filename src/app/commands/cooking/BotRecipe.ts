@@ -93,7 +93,8 @@ export class BotRecipe {
 	private static prepareReplySingleRecipe(recipe: Recipe) {
 		const embed = new EmbedBuilder()
 			.setTitle(recipe.name)
-			.setDescription(`${recipe.headline}\r\n${recipe.description}\r\nPrep time : ${recipe.preparationTime}\nTotal time : ${recipe.totalTime}`);
+			.setDescription(`${recipe.headline}\r\n${recipe.description}\r\nPrep time : ${recipe.preparationTime}\nTotal time : ${recipe.totalTime}`)
+			.setColor(BotRecipe.primaryColor);
 
 		if (recipe.Yields) {
 			recipe.Yields.forEach(y => {
