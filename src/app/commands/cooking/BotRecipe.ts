@@ -97,11 +97,50 @@ export class BotRecipe {
 			.setColor(BotRecipe.primaryColor);
 
 		if (recipe.Yields) {
-			recipe.Yields.forEach(y => {
-				embed.addFields(
-					[{ name: `Parts : ${y.yields}`, value: y.YieldIngredients?.map(yi => `${yi.amount ?? ''} ${yi.unit ?? ''} ${yi.Ingredient?.name}`.trim()).join('\n') ?? '' }],
-				);
-			});
+			const yield2 = recipe.Yields.find(y => y.yields === 2);
+			if (yield2) {
+
+				const formatDecimal = (number: number) => {
+					const fractions: { [key: number]: string } = {
+						0.8: '⅘',
+						0.75: '¾',
+						0.66: '⅔',
+						0.6: '⅗',
+						0.5: '½',
+						0.4: '⅖',
+						0.33: '⅓',
+						0.25: '¼',
+						0.2: '⅕',
+					};
+					return fractions[number] ?? String(number);
+				};
+
+				const formatYieldIngredient = (yieldIngredient: YieldIngredient) => {
+					if (yieldIngredient.amount === null) {
+						return `${yieldIngredient.Ingredient?.name ?? ''} ${yieldIngredient.unit ?? ''}`.trim();
+					}
+					return `${formatDecimal(parseFloat(String(yieldIngredient.amount))) ?? ''} ${yieldIngredient.unit ?? ''} ${yieldIngredient.Ingredient?.name ?? ''}`.trim();
+				};
+
+				const yieldIngredients = yield2.YieldIngredients?.map(yi => formatYieldIngredient(yi));
+
+				embed.addFields([
+					{
+						name: `Pour ${yield2?.yields} personnes`,
+						value: yieldIngredients?.map((yi, index) => {
+							if (!(index % 2)) return yi;
+						}).filter(Boolean).join('\n') ?? '',
+						inline: true,
+					},
+					{
+						name: '\u200B',
+						value: yieldIngredients?.map((yi, index) => {
+							if (index % 2) return yi;
+						}).filter(Boolean).join('\n') ?? '',
+						inline: true,
+					},
+				]);
+			}
 		}
 
 		return embed;
