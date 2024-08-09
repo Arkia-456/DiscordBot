@@ -143,6 +143,14 @@ export class BotRecipe {
 			}
 		}
 
+		if (recipe.Steps) {
+			const steps = recipe.Steps.map(step => ({
+				name: '\u200B',
+				value: `${step.instructions}`,
+			}));
+			embed.addFields(steps);
+		}
+
 		return embed;
 	}
 

@@ -1,6 +1,7 @@
 import { BelongsToManyAddAssociationMixin, CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from 'sequelize';
 import { Tag } from './Tag';
 import { Yield } from './Yield';
+import { Step } from './Step';
 
 export class Recipe extends Model<InferAttributes<Recipe>, InferCreationAttributes<Recipe>> {
 	declare id: CreationOptional<number>;
@@ -13,6 +14,7 @@ export class Recipe extends Model<InferAttributes<Recipe>, InferCreationAttribut
 	declare preparationTime: number;
 	declare totalTime: number;
 	declare Yields?: Array<Yield>;
+	declare Steps?: Array<Step>;
 
 	declare addTag: BelongsToManyAddAssociationMixin<Tag, number>;
 }
