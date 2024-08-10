@@ -8,6 +8,11 @@ import { Menu } from '../database/cooking/models/Menu';
 import { Tag } from '../database/cooking/models/Tag';
 import { BotConstants } from './BotConstants';
 
+interface MenuSendingOptions {
+	publish?: boolean;
+	current?: boolean;
+}
+
 /**
  * Manage the bot
  */
@@ -49,16 +54,10 @@ export class Bot {
 		return this.client.destroy();
 	}
 
-	public static async sendWeeklyMenu(channel: TextBasedChannel, force: boolean = false) {
-		const icons: { [key: string]: string } = {
-			Worldwide: '🌍',
-			Végétarien: '🥬',
-			Épicé: '🌶️',
-			Rapide: '⏱️',
-		};
-		const menu = await Menu.getNextWeekMenu();
-		if (!menu) return;
-		if (menu.messageId && !force) {
+	public static async getWeeklyMenu(channel: TextBasedChannel, options?: MenuSendingOptions) {
+		const menu = options?.current ? await Menu.getCurrentWeekMenu() : await Menu.getNextWeekMenu();
+		if (!menu) return null;
+		if (menu.messageId && options?.publish) {
 			let existingMessage;
 			try {
 				existingMessage	= await channel.messages.fetch(menu.messageId);
@@ -68,9 +67,42 @@ export class Bot {
 			if (existingMessage) return;
 		}
 
-		const recipes = menu.Recipes;
+		return menu;
+	}
 
-		const fields = recipes.map(recipe => {
+	static async sendWeeklyMenu(channel: TextBasedChannel) {
+		const menu = await Bot.getWeeklyMenu(channel, { publish: true });
+		if (!menu) return;
+
+		const messageOptions = Bot.buildWeeklyMenuMessage(menu);
+		const message = await channel.send(messageOptions);
+
+		await Menu.update(
+			{
+				messageId: message.id,
+			},
+			{
+				where: {
+					id: menu.id,
+				},
+			},
+		);
+	}
+
+	static async getWeeklyMenuMessage(channel: TextBasedChannel, current?: boolean) {
+		const menu = await Bot.getWeeklyMenu(channel, { current });
+		if (!menu) return;
+		return Bot.buildWeeklyMenuMessage(menu);
+	}
+
+	private static buildWeeklyMenuMessage(menu: Menu) {
+		const icons: { [key: string]: string } = {
+			Worldwide: '🌍',
+			Végétarien: '🥬',
+			Épicé: '🌶️',
+			Rapide: '⏱️',
+		};
+		const fields = menu.Recipes.map(recipe => {
 			let icon: string = '';
 			recipe.Tags?.forEach((tag: Tag) => {
 				const i = icons[tag.name];
@@ -82,29 +114,14 @@ export class Bot {
 				inline: true,
 			};
 		});
-
+		const formattedDate = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'short' }).format(new Date(menu.startDate));
 		const embed = new EmbedBuilder()
-			.setTitle('Menu de la semaine')
+			.setTitle(`Menu de la semaine du ${formattedDate}`)
 			.setColor(BotConstants.EMBEDS.COLORS.COOKING)
 			.addFields(fields);
 
-		const message = await channel.send({
+		return {
 			embeds: [embed],
-		});
-
-		console.log(message);
-
-		if (!force) {
-			await Menu.update(
-				{
-					messageId: message.id,
-				},
-				{
-					where: {
-						id: menu.id,
-					},
-				},
-			);
-		}
+		};
 	}
 }

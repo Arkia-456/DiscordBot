@@ -7,6 +7,7 @@ import { DateUtils } from '../../../utils/DateUtils';
 export class Menu extends Model {
 	declare id: CreationOptional<number>;
 	declare messageId: CreationOptional<string>;
+	declare startDate: Date;
 	declare Recipes: Array<Recipe>;
 
 	declare addRecipes: BelongsToManyAddAssociationsMixin<Recipe, number>;
@@ -74,6 +75,16 @@ export class Menu extends Model {
 	static async getNextWeekMenu(startDate?: Date) {
 		const date = startDate ? new Date(startDate) : new Date();
 		return Menu.getWeekMenu(date, true);
+	}
+
+	/**
+	 * Get the menu of the current week
+	 * @param startDate start date from which to calculate current week
+	 * @returns menu of the current week
+	 */
+	static getCurrentWeekMenu(startDate?: Date) {
+		const date = startDate ? new Date(startDate) : new Date();
+		return Menu.getWeekMenu(date);
 	}
 
 	/**
