@@ -15,6 +15,7 @@ export class Recipe extends Model<InferAttributes<Recipe>, InferCreationAttribut
 	declare totalTime: number;
 	declare Yields?: Array<Yield>;
 	declare Steps?: Array<Step>;
+	declare Tags?: Array<Tag>;
 
 	declare addTag: BelongsToManyAddAssociationMixin<Tag, number>;
 
