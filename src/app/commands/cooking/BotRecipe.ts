@@ -13,8 +13,6 @@ export interface BotRecipeSearchOptions {
 
 export class BotRecipe {
 
-	static readonly primaryColor = '#eba123';
-
 	static searchRecipes(options: BotRecipeSearchOptions) {
 		const findOptions: FindOptions = {
 			include: [
@@ -81,7 +79,7 @@ export class BotRecipe {
 
 		const embed = new EmbedBuilder()
 			.setTitle(header)
-			.setColor(BotRecipe.primaryColor);
+			.setColor(BotConstants.EMBEDS.COLORS.COOKING);
 		if (recipeList) embed.setDescription(recipeList);
 		if (footer.text) embed.setFooter(footer);
 
@@ -94,7 +92,7 @@ export class BotRecipe {
 		const embed = new EmbedBuilder()
 			.setTitle(recipe.name)
 			.setDescription(`${recipe.headline}\r\n${recipe.description}\r\nPrep time : ${recipe.preparationTime}\nTotal time : ${recipe.totalTime}`)
-			.setColor(BotRecipe.primaryColor);
+			.setColor(BotConstants.EMBEDS.COLORS.COOKING);
 
 		if (recipe.Yields) {
 			const yield2 = recipe.Yields.find(y => y.yields === 2);
