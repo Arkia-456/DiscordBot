@@ -28,8 +28,7 @@ const RecipeAttributes = {
 	slug: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: true,
-		fields: ['slug'],
+		unique: 'slug',
 	},
 	createdAt: {
 		type: DataTypes.DATE,

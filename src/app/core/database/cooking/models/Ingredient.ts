@@ -14,8 +14,7 @@ const IngredientAttributes = {
 	slug: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: true,
-		fields: ['slug'],
+		unique: 'slug',
 	},
 	name: {
 		type: DataTypes.STRING,
