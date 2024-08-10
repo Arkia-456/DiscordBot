@@ -10,6 +10,9 @@ async function main() {
 		await new CookingDatabase().init();
 		await bot.init();
 		await bot.login();
+
+		// At init, check if menu exist
+		if (!(await Menu.getNextWeekMenu())) await Menu.createWeekMenu();
 	} catch (error) {
 		if (error instanceof ApplicationFatalError) {
 			await bot.destroy();
