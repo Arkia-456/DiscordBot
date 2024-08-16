@@ -1,6 +1,7 @@
-import { BelongsToManyAddAssociationMixin, CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from 'sequelize';
+import { BelongsToManyAddAssociationMixin, CreationOptional, DataTypes, FindOptions, InferAttributes, InferCreationAttributes, Model, Op, Sequelize } from 'sequelize';
 import { Tag } from './Tag';
 import { Yield } from './Yield';
+import { Step } from './Step';
 
 export class Recipe extends Model<InferAttributes<Recipe>, InferCreationAttributes<Recipe>> {
 	declare id: CreationOptional<number>;
@@ -13,8 +14,31 @@ export class Recipe extends Model<InferAttributes<Recipe>, InferCreationAttribut
 	declare preparationTime: number;
 	declare totalTime: number;
 	declare Yields?: Array<Yield>;
+	declare Steps?: Array<Step>;
+	declare Tags?: Array<Tag>;
 
 	declare addTag: BelongsToManyAddAssociationMixin<Tag, number>;
+
+	static findRecipesWithTag(tag: string, idsToExclude?: Array<number>) {
+		const findOptions: FindOptions = {
+			include: [
+				{
+					model: Tag,
+					where: {
+						name: tag,
+					},
+				},
+			],
+		};
+		if (idsToExclude) {
+			findOptions.where = {
+				id: {
+					[Op.notIn]: idsToExclude,
+				},
+			};
+		}
+		return Recipe.findAll(findOptions);
+	}
 }
 
 const RecipeAttributes = {
@@ -26,8 +50,7 @@ const RecipeAttributes = {
 	slug: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: true,
-		fields: ['slug'],
+		unique: 'slug',
 	},
 	createdAt: {
 		type: DataTypes.DATE,

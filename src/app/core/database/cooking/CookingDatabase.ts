@@ -1,6 +1,8 @@
 import { Database } from '../Database';
 import Ingredient from './models/Ingredient';
+import { Menu } from './models/Menu';
 import { Recipe } from './models/Recipe';
+import { RecipeMenu } from './models/RecipeMenu';
 import { Step } from './models/Step';
 import { Tag } from './models/Tag';
 import { Yield } from './models/Yield';
@@ -26,5 +28,8 @@ export default class CookingDatabase extends Database {
 
 		Recipe.belongsToMany(Tag, { through: 'recipeTags', foreignKey: 'recipeId', otherKey: 'tagId' });
 		Tag.belongsToMany(Recipe, { through: 'recipeTags', foreignKey: 'tagId', otherKey: 'recipeId' });
+
+		Recipe.belongsToMany(Menu, { through: { model: RecipeMenu }, foreignKey: 'recipeId', otherKey: 'menuId' });
+		Menu.belongsToMany(Recipe, { through: { model: RecipeMenu }, foreignKey: 'menuId', otherKey: 'recipeId' });
 	}
 }
