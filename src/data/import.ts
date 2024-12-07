@@ -90,17 +90,20 @@ export async function importRecipes() {
 			updatedAt: recipeRawData.updatedAt,
 		};
 
-		const [recipe] = await Recipe.findOrCreate({
+		const [recipe, created] = await Recipe.findOrCreate({
 			where: { slug: recipeData.slug },
 			defaults: recipeData,
 		});
 
-		await createIngredients(recipeRawData.ingredients);
-		await Promise.all([
-			createYields(recipe, recipeRawData),
-			createSteps(recipe, recipeRawData.steps),
-			createTags(recipe, [...recipeRawData.cuisines, ...recipeRawData.tags]),
-		]);
+		if (created) {
+			await createIngredients(recipeRawData.ingredients);
+			await Promise.all([
+				createYields(recipe, recipeRawData),
+				createSteps(recipe, recipeRawData.steps),
+				createTags(recipe, [...recipeRawData.cuisines, ...recipeRawData.tags]),
+			]);
+		}
+
 
 		// progress
 		index++;
