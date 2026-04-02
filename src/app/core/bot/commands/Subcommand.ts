@@ -1,4 +1,10 @@
-import { ApplicationCommandOptionType, ChatInputCommandInteraction, SlashCommandBooleanOption, SlashCommandStringOption, SlashCommandSubcommandBuilder } from 'discord.js';
+import {
+	ApplicationCommandOptionType,
+	ChatInputCommandInteraction,
+	SlashCommandBooleanOption,
+	SlashCommandStringOption,
+	SlashCommandSubcommandBuilder,
+} from 'discord.js';
 import { ICommandParam } from './ICommandParam';
 import { ICommandOption } from './ICommandOption';
 
@@ -8,7 +14,12 @@ export class Subcommand {
 	private execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
 	private options: Array<ICommandOption> | undefined;
 
-	constructor(name: string, description: string, execute: (interaction: ChatInputCommandInteraction) => Promise<void>, option?: ICommandParam) {
+	constructor(
+		name: string,
+		description: string,
+		execute: (interaction: ChatInputCommandInteraction) => Promise<void>,
+		option?: ICommandParam,
+	) {
 		this.name = name;
 		this.description = description;
 		this.execute = execute;
@@ -27,24 +38,33 @@ export class Subcommand {
 			.setName(this.name)
 			.setDescription(this.description);
 		if (this.options?.length) {
-			this.options.forEach(option => {
+			this.options.forEach((option) => {
 				this.addOption(subcommand, option.type, option);
 			});
 		}
 		return subcommand;
 	}
 
-	private addOption(subcommand: SlashCommandSubcommandBuilder, type: ApplicationCommandOptionType, data: ICommandOption) {
+	private addOption(
+		subcommand: SlashCommandSubcommandBuilder,
+		type: ApplicationCommandOptionType,
+		data: ICommandOption,
+	) {
 		switch (type) {
 			case ApplicationCommandOptionType.Boolean: {
-				const option = new SlashCommandBooleanOption().setName(data.name).setDescription(data.description);
+				const option = new SlashCommandBooleanOption()
+					.setName(data.name)
+					.setDescription(data.description);
 				subcommand.addBooleanOption(option);
 				break;
 			}
 			case ApplicationCommandOptionType.String: {
-				const option = new SlashCommandStringOption().setName(data.name).setDescription(data.description);
+				const option = new SlashCommandStringOption()
+					.setName(data.name)
+					.setDescription(data.description);
 				if (data.choices) option.addChoices(data.choices);
 				if (data.minLength) option.setMinLength(data.minLength);
+				if (data.required) option.setRequired(true);
 				subcommand.addStringOption(option);
 				break;
 			}

@@ -1,155 +1,174 @@
-import { FindOptions, Op, WhereOptions } from 'sequelize';
-import { Recipe } from '../../core/database/cooking/models/Recipe';
-import { EmbedBuilder, EmbedFooterOptions } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { BotConstants } from '../../core/bot/BotConstants';
-import { Step } from '../../core/database/cooking/models/Step';
-import { Yield } from '../../core/database/cooking/models/Yield';
-import { YieldIngredient } from '../../core/database/cooking/models/YieldIngredient';
-import Ingredient from '../../core/database/cooking/models/Ingredient';
+import { GraphQLResponse } from '../../api/graphql/GraphQLTypes';
+import { RecipeModel } from '../../cooking/models/RecipeModel';
+import { RecipesModel } from '../../cooking/models/RecipesModel';
+import { ApplicationError } from '../../core/utils/error/ApplicationError';
+import { MathUtils } from '../../core/utils/MathUtils';
+import { RecipeIngredientModel } from '../../cooking/models/RecipeIngredientModel';
+import { EmbedUtils } from '../../core/utils/EmbedUtils';
 
 export interface BotRecipeSearchOptions {
 	nameSearchExpr: string | null;
 }
 
 export class BotRecipe {
-
-	static searchRecipes(options: BotRecipeSearchOptions) {
-		const findOptions: FindOptions = {
-			include: [
-				{
-					model: Yield,
-					include: [
-						{
-							model: YieldIngredient,
-							include: [Ingredient],
-						},
-					],
-				},
-				Step,
-			],
-			order: [
-				[Yield, 'yields', 'ASC'],
-				[Step, 'index', 'ASC'],
-			],
-		};
-		const whereOptions: WhereOptions = {};
-
-		if (options.nameSearchExpr) {
-			const orArray = options.nameSearchExpr.split(';');
-			whereOptions.name = {
-				[Op.or]: [],
-			};
-			orArray.forEach(orPredicate => {
-				whereOptions.name[Op.or].push({
-					[Op.and]: orPredicate.split(',').map(str => ({ [Op.like]: `%${str.trim()}%` })),
-				});
-			});
-		}
-
-		findOptions.where = whereOptions;
-		return Recipe.findAll(findOptions);
+	static {
+		// Allow self-signed certificates for development
+		process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 	}
 
-	static prepareReply(options: BotRecipeSearchOptions, recipes: Array<Recipe>) {
-		const count = recipes.length;
-		let partialCount = 0;
-		let recipeList = '';
-
-		if (count) {
-			recipes.forEach(recipe => {
-				const str = `\n- ${recipe.toJSON().name}`;
-				if (recipeList.length + str.length < BotConstants.EMBEDS.LIMITS.DESCRIPTION_LENGTH) {
-					recipeList += str;
-					partialCount++;
+	static async searchRecipes(search: string) {
+		const query = `
+			query Recipes {
+				recipes(where: { title: { contains: "${search}" } }) {
+					id
+					title
+					recipeIngredients {
+						quantity
+						unit
+						index
+						ingredient {
+							name
+						}
+					}
+					recipeInstructions {
+						index
+						instruction
+					}
 				}
-			});
+			}
+		`;
+
+		const resp = await fetch(BotConstants.COOKING_API_URL, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ query }),
+		});
+
+		const data: GraphQLResponse<RecipesModel> = await resp.json();
+
+		if (data.errors) {
+			throw new ApplicationError('GraphQL query failed', data.errors);
 		}
+		return data.data?.recipes ?? [];
+	}
+
+	static createReplyOptions(search: string, recipes: Array<RecipeModel>) {
+		const count = recipes.length;
 
 		if (count === 1) {
 			return {
-				embeds: [BotRecipe.prepareReplySingleRecipe(recipes[0])],
+				embeds: [BotRecipe.createReplySingleRecipe(recipes[0])],
 			};
 		}
 
-		const header = `Résultats de la recherche (${partialCount < count ? partialCount + '/' + count : count})`;
-
-		const footer: EmbedFooterOptions = {
-			text: `${options.nameSearchExpr ? `nom : ${options.nameSearchExpr}` : ''}`,
-		};
-
-		const embed = new EmbedBuilder()
-			.setTitle(header)
-			.setColor(BotConstants.EMBEDS.COLORS.COOKING);
-		if (recipeList) embed.setDescription(recipeList);
-		if (footer.text) embed.setFooter(footer);
-
 		return {
-			embeds: [embed],
+			embeds: [BotRecipe.createReplyMultipleRecipes(search, recipes)],
 		};
 	}
 
-	private static prepareReplySingleRecipe(recipe: Recipe) {
+	private static createReplyMultipleRecipes(
+		search: string,
+		recipes: Array<RecipeModel>,
+	) {
+		const count = recipes.length;
+		const headerBaseText = 'Résultats de la recherche ({count})';
+
+		const worstCaseHeader = EmbedUtils.createHeader({
+			text: headerBaseText.replace('{count}', `${count}/${count}`),
+			ellipsis: true,
+		});
+
+		const footer = EmbedUtils.createFooter({
+			text: `Recherche : ${search}`,
+			ellipsis: true,
+		});
+
+		const descriptionBudget = Math.min(
+			BotConstants.EMBEDS.LIMITS.DESCRIPTION_LENGTH,
+			BotConstants.EMBEDS.LIMITS.EMBED_LENGTH -
+				worstCaseHeader.length -
+				footer.text.length,
+		);
+
+		let partialCount = 0;
+		let recipeList = '';
+		const separator = '\n-';
+
+		for (const recipe of recipes) {
+			const addition = `${separator} ${recipe.title}`;
+			if (recipeList.length + addition.length > descriptionBudget) break;
+
+			recipeList += addition;
+			partialCount++;
+		}
+
+		const headerText = EmbedUtils.createHeader({
+			text: headerBaseText.replace(
+				'{count}',
+				`${partialCount < count ? `${partialCount}/` : ''}${count}`,
+			),
+			ellipsis: true,
+		});
+
 		const embed = new EmbedBuilder()
-			.setTitle(recipe.name)
-			.setDescription(`${recipe.headline}\r\n${recipe.description}\r\nPrep time : ${recipe.preparationTime}\nTotal time : ${recipe.totalTime}`)
-			.setColor(BotConstants.EMBEDS.COLORS.COOKING);
-
-		if (recipe.Yields) {
-			const yield2 = recipe.Yields.find(y => y.yields === 2);
-			if (yield2) {
-
-				const formatDecimal = (number: number) => {
-					const fractions: { [key: number]: string } = {
-						0.8: '⅘',
-						0.75: '¾',
-						0.66: '⅔',
-						0.6: '⅗',
-						0.5: '½',
-						0.4: '⅖',
-						0.33: '⅓',
-						0.25: '¼',
-						0.2: '⅕',
-					};
-					return fractions[number] ?? String(number);
-				};
-
-				const formatYieldIngredient = (yieldIngredient: YieldIngredient) => {
-					if (yieldIngredient.amount === null) {
-						return `${yieldIngredient.Ingredient?.name ?? ''} ${yieldIngredient.unit ?? ''}`.trim();
-					}
-					return `${formatDecimal(parseFloat(String(yieldIngredient.amount))) ?? ''} ${yieldIngredient.unit ?? ''} ${yieldIngredient.Ingredient?.name ?? ''}`.trim();
-				};
-
-				const yieldIngredients = yield2.YieldIngredients?.map(yi => formatYieldIngredient(yi));
-
-				embed.addFields([
-					{
-						name: `Pour ${yield2?.yields} personnes`,
-						value: yieldIngredients?.map((yi, index) => {
-							if (!(index % 2)) return yi;
-						}).filter(Boolean).join('\n') ?? '',
-						inline: true,
-					},
-					{
-						name: '\u200B',
-						value: yieldIngredients?.map((yi, index) => {
-							if (index % 2) return yi;
-						}).filter(Boolean).join('\n') ?? '',
-						inline: true,
-					},
-				]);
-			}
-		}
-
-		if (recipe.Steps) {
-			const steps = recipe.Steps.map(step => ({
-				name: '\u200B',
-				value: `${step.instructions}`,
-			}));
-			embed.addFields(steps);
-		}
+			.setTitle(headerText)
+			.setColor(BotConstants.EMBEDS.COLORS.COOKING)
+			.setFooter(footer);
+		if (recipeList) embed.setDescription(recipeList);
 
 		return embed;
 	}
 
+	private static sortByIndex(ingredients: Array<RecipeIngredientModel>) {
+		ingredients.sort((a, b) => {
+			if (a.index == null && b.index == null) return 0;
+			if (a.index == null) return 1;
+			if (b.index == null) return -1;
+			return a.index - b.index;
+		});
+	}
+
+	private static createReplySingleRecipe(recipe: RecipeModel) {
+		const embed = new EmbedBuilder()
+			.setTitle(recipe.title)
+			.setColor(BotConstants.EMBEDS.COLORS.COOKING);
+
+		BotRecipe.sortByIndex(recipe.recipeIngredients);
+		const ingredients = recipe.recipeIngredients.map((ri) =>
+			`${ri.quantity ? MathUtils.formatDecimal(ri.quantity) : ''} ${ri.unit ?? ''} ${ri.ingredient.name}`.trim(),
+		);
+
+		embed.addFields([
+			{
+				name: 'Ingrédients',
+				value: ingredients
+					.map((i, index) => {
+						if (!(index % 2)) return i;
+					})
+					.filter(Boolean)
+					.join('\n'),
+				inline: true,
+			},
+			{
+				name: '\u200B',
+				value: ingredients
+					.map((i, index) => {
+						if (index % 2) return i;
+					})
+					.filter(Boolean)
+					.join('\n'),
+				inline: true,
+			},
+		]);
+
+		const instructions = recipe.recipeInstructions.map((instruction) => ({
+			name: '\u200B',
+			value: instruction.instruction,
+		}));
+		embed.addFields(instructions);
+
+		return embed;
+	}
 }

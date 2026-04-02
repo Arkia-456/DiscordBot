@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "dev": "tsc && node dist/index.js"
+    "dev": "set NODE_TLS_REJECT_UNAUTHORIZED=0 && tsc && node dist/index.js"
   },
   "repository": {
     "type": "git",

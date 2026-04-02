@@ -1,4 +1,7 @@
-import { ApplicationCommandOptionChoiceData, ApplicationCommandOptionType } from 'discord.js';
+import {
+	ApplicationCommandOptionChoiceData,
+	ApplicationCommandOptionType,
+} from 'discord.js';
 
 export interface ICommandOption {
 	type: ApplicationCommandOptionType;
@@ -6,4 +9,5 @@ export interface ICommandOption {
 	description: string;
 	choices?: Array<ApplicationCommandOptionChoiceData<string>>;
 	minLength?: number;
+	required?: boolean;
 }
