@@ -1,5 +1,10 @@
-export type GraphQLData = { [key: string]: any };
-export interface GraphQLResponse<T extends GraphQLData> {
-	data?: T;
-	errors?: Array<{ message: string }>;
+export abstract class GraphQLModel {}
+
+export type GraphQLData<T extends GraphQLModel> = {
+	[key: string]: Array<T> | null;
+};
+
+export interface GraphQLResponse<T extends GraphQLModel> {
+	data?: GraphQLData<T>;
+	errors?: Array<{ message: string }> | null;
 }

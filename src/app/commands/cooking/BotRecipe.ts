@@ -1,15 +1,13 @@
 import { EmbedBuilder } from 'discord.js';
 import { BotConstants } from '../../core/bot/BotConstants';
 import { GraphQLResponse } from '../../api/graphql/GraphQLTypes';
-import { RecipeModel } from '../../cooking/models/RecipeModel';
-import { RecipesModel } from '../../cooking/models/RecipesModel';
 import { ApplicationError } from '../../core/utils/error/ApplicationError';
 import { MathUtils } from '../../core/utils/MathUtils';
-import { RecipeIngredientModel } from '../../cooking/models/RecipeIngredientModel';
 import { EmbedUtils } from '../../core/utils/EmbedUtils';
 import { DateUtils } from '../../core/utils/DateUtils';
-import { MenusGraphQLData } from '../../cooking/models/MenusGraphQLData';
-import { MenuModel } from '../../cooking/models/MenuModel';
+import { MenuGraphQLModel } from '../../cooking/models/MenuGraphQLModel';
+import { RecipeGraphQLModel } from '../../cooking/models/RecipeGraphQLModel';
+import { RecipeIngredientGraphQLModel } from '../../cooking/models/RecipeIngredientGraphQLModel';
 
 export interface BotRecipeSearchOptions {
 	nameSearchExpr: string | null;
@@ -49,7 +47,7 @@ export class BotRecipe {
 			body: JSON.stringify({ query }),
 		});
 
-		const data: GraphQLResponse<RecipesModel> = await resp.json();
+		const data: GraphQLResponse<RecipeGraphQLModel> = await resp.json();
 
 		if (data.errors) {
 			throw new ApplicationError('GraphQL query failed', data.errors);
@@ -57,7 +55,10 @@ export class BotRecipe {
 		return data.data?.recipes ?? [];
 	}
 
-	static createReplyOptions(search: string, recipes: Array<RecipeModel>) {
+	static createReplyOptions(
+		search: string,
+		recipes: Array<RecipeGraphQLModel>,
+	) {
 		const count = recipes.length;
 
 		if (count === 1) {
@@ -73,7 +74,7 @@ export class BotRecipe {
 
 	private static createReplyMultipleRecipes(
 		search: string,
-		recipes: Array<RecipeModel>,
+		recipes: Array<RecipeGraphQLModel>,
 	) {
 		const count = recipes.length;
 		const headerBaseText = 'Résultats de la recherche ({count})';
@@ -124,7 +125,7 @@ export class BotRecipe {
 		return embed;
 	}
 
-	private static sortByIndex(ingredients: Array<RecipeIngredientModel>) {
+	private static sortByIndex(ingredients: Array<RecipeIngredientGraphQLModel>) {
 		ingredients.sort((a, b) => {
 			if (a.index == null && b.index == null) return 0;
 			if (a.index == null) return 1;
@@ -133,7 +134,7 @@ export class BotRecipe {
 		});
 	}
 
-	private static createReplySingleRecipe(recipe: RecipeModel) {
+	private static createReplySingleRecipe(recipe: RecipeGraphQLModel) {
 		const embed = new EmbedBuilder()
 			.setTitle(recipe.title)
 			.setColor(BotConstants.EMBEDS.COLORS.COOKING);
@@ -188,7 +189,7 @@ export class BotRecipe {
 		return BotRecipe.buildWeeklyMenuMessage(menu);
 	}
 
-	private static buildWeeklyMenuMessage(menu: MenuModel) {
+	private static buildWeeklyMenuMessage(menu: MenuGraphQLModel) {
 		const iconsDictionnary: { [key: string]: string } = {
 			Worldwide: '🌍',
 			Végétarien: '🥬',
@@ -230,7 +231,10 @@ export class BotRecipe {
 		};
 	}
 
-	private static splitEvently(items: Array<RecipeModel>, maxPerEmbed: number) {
+	private static splitEvently(
+		items: Array<RecipeGraphQLModel>,
+		maxPerEmbed: number,
+	) {
 		const total = items.length;
 		const embedsCount = Math.ceil(total / maxPerEmbed);
 		const baseSize = Math.floor(total / embedsCount);
@@ -284,11 +288,11 @@ export class BotRecipe {
 			body: JSON.stringify({ query }),
 		});
 
-		const data: GraphQLResponse<MenusGraphQLData> = await resp.json();
+		const data: GraphQLResponse<MenuGraphQLModel> = await resp.json();
 
 		if (data.errors) {
 			throw new ApplicationError('GraphQL query failed', data.errors);
 		}
-		return data.data?.menus[0];
+		return data.data?.menus?.[0];
 	}
 }
