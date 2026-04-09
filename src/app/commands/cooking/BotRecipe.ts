@@ -1,14 +1,13 @@
 import { EmbedBuilder } from 'discord.js';
 import { BotConstants } from '../../core/bot/BotConstants';
-import { GraphQLResponse } from '../../api/graphql/GraphQLTypes';
-import { ApplicationError } from '../../core/utils/error/ApplicationError';
 import { MathUtils } from '../../core/utils/MathUtils';
 import { EmbedUtils } from '../../core/utils/EmbedUtils';
 import { DateUtils } from '../../core/utils/DateUtils';
 import { MenuGraphQLModel } from '../../cooking/models/MenuGraphQLModel';
 import { RecipeGraphQLModel } from '../../cooking/models/RecipeGraphQLModel';
 import { RecipeIngredientGraphQLModel } from '../../cooking/models/RecipeIngredientGraphQLModel';
-import logger from '../../core/utils/logger/Logger';
+import { RecipeQueries } from '../../api/graphql/RecipeQueries';
+import { MenuQueries } from '../../api/graphql/MenuQueries';
 
 export interface BotRecipeSearchOptions {
 	nameSearchExpr: string | null;
@@ -20,48 +19,10 @@ export class BotRecipe {
 		process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 	}
 
-	static async searchRecipes(search: string) {
-		const query = `
-			query Recipes {
-				recipes(where: { title: { contains: "${search}" } }) {
-					id
-					title
-					recipeIngredients {
-						quantity
-						unit
-						index
-						ingredient {
-							name
-						}
-					}
-					recipeInstructions {
-						index
-						instruction
-					}
-				}
-			}
-		`;
+	static apiUrl = BotConstants.COOKING_API_URL;
 
-		logger.info('GraphQL request', { query });
-
-		let resp: Response;
-		try {
-			resp = await fetch(BotConstants.COOKING_API_URL, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ query }),
-			});
-			logger.info('GraphQL response', { status: resp.status });
-		} catch (error) {
-			throw new ApplicationError('Failed to fetch recipes', error);
-		}
-
-		const data: GraphQLResponse<RecipeGraphQLModel> = await resp.json();
-
-		if (data.errors) {
-			throw new ApplicationError('GraphQL query failed', data.errors);
-		}
-		return data.data?.recipes ?? [];
+	static searchRecipes(search: string) {
+		return RecipeQueries.getRecipes({ title: search });
 	}
 
 	static createReplyOptions(
@@ -263,7 +224,6 @@ export class BotRecipe {
 		const menu = nextWeek
 			? await BotRecipe.getNextWeekMenu()
 			: await BotRecipe.getCurrentWeekMenu();
-		if (!menu) return null;
 		return menu;
 	}
 
@@ -280,36 +240,9 @@ export class BotRecipe {
 	}
 
 	private static async getWeekMenu(startDate: Date) {
-		const query = `
-			query Menus {
-				menus(where: { date: { eq: "${DateUtils.formatToIsoDateOnly(startDate)}" } }) {
-					date
-					recipes {
-						title
-					}
-				}
-			}
-		`;
-
-		logger.info('GraphQL request', { query });
-
-		let resp: Response;
-		try {
-			resp = await fetch(BotConstants.COOKING_API_URL, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ query }),
-			});
-			logger.info('GraphQL response', { status: resp.status });
-		} catch (error) {
-			throw new ApplicationError('Failed to fetch weekly menu', error);
-		}
-
-		const data: GraphQLResponse<MenuGraphQLModel> = await resp.json();
-
-		if (data.errors) {
-			throw new ApplicationError('GraphQL query failed', data.errors);
-		}
-		return data.data?.menus?.[0];
+		const menus = await MenuQueries.getMenus({
+			date: DateUtils.formatToIsoDateOnly(startDate),
+		});
+		return menus[0];
 	}
 }
