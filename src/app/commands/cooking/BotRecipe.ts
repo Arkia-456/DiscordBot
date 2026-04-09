@@ -9,10 +9,6 @@ import { RecipeIngredientGraphQLModel } from '../../cooking/models/RecipeIngredi
 import { RecipeQueries } from '../../api/graphql/RecipeQueries';
 import { MenuQueries } from '../../api/graphql/MenuQueries';
 
-export interface BotRecipeSearchOptions {
-	nameSearchExpr: string | null;
-}
-
 export class BotRecipe {
 	static {
 		// Allow self-signed certificates for development
