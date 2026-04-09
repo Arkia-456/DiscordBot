@@ -6,12 +6,15 @@ class Logger {
 	private logger: winston.Logger;
 
 	private constructor() {
+		const orderedJson = winston.format.printf((info) => {
+			const { level, message, timestamp, ...meta } = info;
+			const ordered = { level, message, ...meta, timestamp };
+			return JSON.stringify(ordered);
+		});
+
 		this.logger = winston.createLogger({
 			level: 'info',
-			format: winston.format.combine(
-				winston.format.timestamp(),
-				winston.format.json(),
-			),
+			format: winston.format.combine(winston.format.timestamp(), orderedJson),
 			transports: [
 				new winston.transports.DailyRotateFile({
 					filename: 'logs/%DATE%.log',

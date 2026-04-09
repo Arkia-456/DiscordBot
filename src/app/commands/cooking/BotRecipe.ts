@@ -8,6 +8,7 @@ import { DateUtils } from '../../core/utils/DateUtils';
 import { MenuGraphQLModel } from '../../cooking/models/MenuGraphQLModel';
 import { RecipeGraphQLModel } from '../../cooking/models/RecipeGraphQLModel';
 import { RecipeIngredientGraphQLModel } from '../../cooking/models/RecipeIngredientGraphQLModel';
+import logger from '../../core/utils/logger/Logger';
 
 export interface BotRecipeSearchOptions {
 	nameSearchExpr: string | null;
@@ -41,6 +42,8 @@ export class BotRecipe {
 			}
 		`;
 
+		logger.info('GraphQL request', { query });
+
 		let resp: Response;
 		try {
 			resp = await fetch(BotConstants.COOKING_API_URL, {
@@ -48,6 +51,7 @@ export class BotRecipe {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ query }),
 			});
+			logger.info('GraphQL response', { status: resp.status });
 		} catch (error) {
 			throw new ApplicationError('Failed to fetch recipes', error);
 		}
@@ -287,6 +291,8 @@ export class BotRecipe {
 			}
 		`;
 
+		logger.info('GraphQL request', { query });
+
 		let resp: Response;
 		try {
 			resp = await fetch(BotConstants.COOKING_API_URL, {
@@ -294,6 +300,7 @@ export class BotRecipe {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ query }),
 			});
+			logger.info('GraphQL response', { status: resp.status });
 		} catch (error) {
 			throw new ApplicationError('Failed to fetch weekly menu', error);
 		}

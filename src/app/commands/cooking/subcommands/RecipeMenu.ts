@@ -16,6 +16,15 @@ import {
 } from 'unique-names-generator';
 
 async function execute(interaction: ChatInputCommandInteraction) {
+	const interactionCode = uniqueNamesGenerator({
+		dictionaries: [adjectives, colors, animals],
+		separator: '-',
+	});
+	logger.info('Executing command', {
+		interactionId: interactionCode,
+		command: 'recette menu',
+	});
+
 	const channel = interaction.channel;
 	const nextMenuOption = interaction.options.getBoolean('next-week');
 	if (channel) {
@@ -25,16 +34,26 @@ async function execute(interaction: ChatInputCommandInteraction) {
 			await interaction.reply(messageOptions);
 		} catch (error) {
 			if (error instanceof ApplicationError) {
-				logger.error(error.message, error.error);
+				logger.error(error.message, {
+					interactionId: interactionCode,
+					error:
+						error.error instanceof Error
+							? {
+									name: error.error.name,
+									cause: error.error.cause,
+									message: error.error.message,
+									stack: error.error.stack,
+								}
+							: error.error,
+				});
 			} else {
-				logger.error('Unexpected error occurred', error);
+				logger.error('Unexpected error occurred', {
+					interactionId: interactionCode,
+					error,
+				});
 			}
-			const code = uniqueNamesGenerator({
-				dictionaries: [adjectives, colors, animals],
-				separator: '-',
-			});
 			await interaction.reply(
-				`Une erreur est survenue lors de l'exécution de ta commande.\nIdentifiant de l'erreur : ${code}`,
+				`Une erreur est survenue lors de l'exécution de ta commande.\nIdentifiant de ta commande : ${interactionCode}`,
 			);
 		}
 	}
