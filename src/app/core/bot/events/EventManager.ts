@@ -24,7 +24,10 @@ export class EventManager {
 		Logger.write(`Importing events: ${fileIndex}/${eventFiles.length}`);
 		for (const eventFile of eventFiles) {
 			try {
-				await EventManager.registerEvent(path.join(eventsPath, eventFile), client);
+				await EventManager.registerEvent(
+					path.join(eventsPath, eventFile),
+					client,
+				);
 			} finally {
 				fileIndex++;
 				Logger.write(`Importing events: ${fileIndex}/${eventFiles.length}`, true);
