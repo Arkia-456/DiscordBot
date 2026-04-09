@@ -22,14 +22,14 @@ export class CommandManager {
 	 * Register bot commands
 	 */
 	public static async register() {
-		Logger.write('Registering commands...');
-		Logger.write('✔ Commands registered successfully');
+		logger.info('Registering commands...');
 		const [guildCommandsToRegister, globalCommandsToRegister] =
 			await CommandManager.getCommandsToRegister();
 		await CommandManager.registerCommands(
 			guildCommandsToRegister,
 			globalCommandsToRegister,
 		);
+		logger.info('✔ Commands registered successfully');
 	}
 
 	/**
@@ -92,7 +92,7 @@ export class CommandManager {
 		}
 
 		let fileIndex = 0;
-		Logger.write(`Importing commands: ${fileIndex}/${commandFiles.length}`);
+		logger.info(`Importing commands: ${fileIndex}/${commandFiles.length}`);
 		for (const file of commandFiles) {
 			try {
 				promises.push(
@@ -104,7 +104,7 @@ export class CommandManager {
 				);
 			} finally {
 				fileIndex++;
-				Logger.write(`Importing commands: ${fileIndex}/${commandFiles.length}`, true);
+				logger.info(`Importing commands: ${fileIndex}/${commandFiles.length}`);
 			}
 		}
 		await Promise.all(promises);
@@ -141,7 +141,7 @@ export class CommandManager {
 	private static async getCommandFromFile(filePath: string) {
 		const commandInfo = (await import(filePath)).commandInfo as ICommand;
 		if (!commandInfo?.slashCommandBuilder) {
-			Logger.write(`Command ${filePath} is not a slash command`);
+			logger.info(`Command ${filePath} is not a slash command`);
 			return;
 		}
 		return commandInfo;

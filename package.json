@@ -35,6 +35,8 @@
     "mysql2": "^3.11.0",
     "node-cron": "^3.0.3",
     "sequelize": "^6.37.3",
-    "unique-names-generator": "^4.7.1"
+    "unique-names-generator": "^4.7.1",
+    "winston": "^3.19.0",
+    "winston-daily-rotate-file": "^5.0.0"
   }
 }

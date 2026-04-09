@@ -3,6 +3,7 @@ import { Bot } from './app/core/bot/Bot';
 import { ApplicationFatalError } from './app/core/utils/error/ApplicationFatalError';
 import cron from 'node-cron';
 import { BotRecipe } from './app/commands/cooking/BotRecipe';
+import logger from './app/core/utils/logger/Logger';
 
 async function main() {
 	dotenv.config();
@@ -34,9 +35,10 @@ async function main() {
 	} catch (error) {
 		if (error instanceof ApplicationFatalError) {
 			await bot.destroy();
+			logger.error('Fatal error during bot initialization', error);
 			throw error;
 		} else {
-			console.log(error);
+			logger.error('Unexpected error occurred');
 		}
 	}
 }

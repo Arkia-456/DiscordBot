@@ -1,6 +1,6 @@
 import { Client } from 'discord.js';
 import path from 'path';
-import { Logger } from '../../utils/logger/Logger';
+import logger from '../../utils/logger/Logger';
 import { readdir } from 'fs/promises';
 import { ApplicationFatalError } from '../../utils/error/ApplicationFatalError';
 
@@ -10,18 +10,18 @@ export class EventManager {
 	 * @param client
 	 */
 	public static async register(client: Client) {
-		Logger.write('Registering events...');
+		logger.info('Registering events...');
 		const eventsPath = path.join(__dirname, 'events');
 		const eventFiles = [];
 		try {
 			const files = await readdir(eventsPath);
-			eventFiles.push(...files.filter(f => f.endsWith('.js')));
+			eventFiles.push(...files.filter((f) => f.endsWith('.js')));
 		} catch (error) {
 			throw new ApplicationFatalError({ error: error });
 		}
 
 		let fileIndex = 0;
-		Logger.write(`Importing events: ${fileIndex}/${eventFiles.length}`);
+		logger.info(`Importing events: ${fileIndex}/${eventFiles.length}`);
 		for (const eventFile of eventFiles) {
 			try {
 				await EventManager.registerEvent(
@@ -30,10 +30,10 @@ export class EventManager {
 				);
 			} finally {
 				fileIndex++;
-				Logger.write(`Importing events: ${fileIndex}/${eventFiles.length}`, true);
+				logger.info(`Importing events: ${fileIndex}/${eventFiles.length}`);
 			}
 		}
-		Logger.write('✔ Events registered successfully');
+		logger.info('✔ Events registered successfully');
 	}
 
 	/**
