@@ -7,6 +7,9 @@ import { ApplicationError } from '../../core/utils/error/ApplicationError';
 import { MathUtils } from '../../core/utils/MathUtils';
 import { RecipeIngredientModel } from '../../cooking/models/RecipeIngredientModel';
 import { EmbedUtils } from '../../core/utils/EmbedUtils';
+import { DateUtils } from '../../core/utils/DateUtils';
+import { MenusGraphQLData } from '../../cooking/models/MenusGraphQLData';
+import { MenuModel } from '../../cooking/models/MenuModel';
 
 export interface BotRecipeSearchOptions {
 	nameSearchExpr: string | null;
@@ -170,5 +173,122 @@ export class BotRecipe {
 		embed.addFields(instructions);
 
 		return embed;
+	}
+
+	public static async getWeeklyMenuMessage(currentWeek?: boolean) {
+		const menu = await BotRecipe.getWeeklyMenu(currentWeek);
+		if (!menu) {
+			const embed = new EmbedBuilder()
+				.setDescription(
+					`Aucun menu trouvé pour ${currentWeek ? 'cette semaine' : 'la semaine prochaine'}.`,
+				)
+				.setColor(BotConstants.EMBEDS.COLORS.COOKING);
+			return { embeds: [embed] };
+		}
+		return BotRecipe.buildWeeklyMenuMessage(menu);
+	}
+
+	private static buildWeeklyMenuMessage(menu: MenuModel) {
+		const iconsDictionnary: { [key: string]: string } = {
+			Worldwide: '🌍',
+			Végétarien: '🥬',
+			Épicé: '🌶️',
+			Rapide: '⏱️',
+		};
+
+		const chunkSize = BotConstants.EMBEDS.LIMITS.FIELDS_NUMBER;
+
+		const formattedDate = new Intl.DateTimeFormat('fr-FR', {
+			dateStyle: 'short',
+		}).format(new Date(menu.date));
+
+		const embeds = BotRecipe.splitEvently(menu.recipes, chunkSize).map(
+			(recipesChunk, index, array) => {
+				const fields = recipesChunk.map((recipe) => {
+					let icons: string = '';
+					recipe.tags?.forEach((tag) => {
+						const icon = iconsDictionnary[tag.slug];
+						if (icon) icons += ` ${icon}`;
+					});
+					return {
+						name: '\u200B',
+						value: `${recipe.title}\n${icons.trim()}`,
+						inline: true,
+					};
+				});
+				return new EmbedBuilder()
+					.setTitle(
+						`Menu de la semaine du ${formattedDate}${menu.recipes.length > chunkSize ? ` (${index + 1}/${array.length})` : ''}`,
+					)
+					.setColor(BotConstants.EMBEDS.COLORS.COOKING)
+					.addFields(fields);
+			},
+		);
+
+		return {
+			embeds: embeds,
+		};
+	}
+
+	private static splitEvently(items: Array<RecipeModel>, maxPerEmbed: number) {
+		const total = items.length;
+		const embedsCount = Math.ceil(total / maxPerEmbed);
+		const baseSize = Math.floor(total / embedsCount);
+		const remainder = total % embedsCount;
+		const result = [];
+		let index = 0;
+
+		for (let i = 0; i < embedsCount; i++) {
+			const size = baseSize + (i < remainder ? 1 : 0);
+			result.push(items.slice(index, index + size));
+			index += size;
+		}
+		return result;
+	}
+
+	private static async getWeeklyMenu(currentWeek: boolean = false) {
+		const menu = currentWeek
+			? await BotRecipe.getCurrentWeekMenu()
+			: await BotRecipe.getNextWeekMenu();
+		if (!menu) return null;
+		return menu;
+	}
+
+	private static getCurrentWeekMenu(startDate?: Date) {
+		const date = startDate ? new Date(startDate) : new Date();
+		const monday = DateUtils.getPreviousNamedDay('monday', date);
+		return BotRecipe.getWeekMenu(monday);
+	}
+
+	private static getNextWeekMenu(startDate?: Date) {
+		const date = startDate ? new Date(startDate) : new Date();
+		const monday = DateUtils.getNextNamedDay('monday', date);
+		return BotRecipe.getWeekMenu(monday);
+	}
+
+	private static async getWeekMenu(startDate: Date) {
+		const query = `
+			query Menus {
+				menus(where: { date: { eq: "${DateUtils.formatToIsoDateOnly(startDate)}" } }) {
+					date
+					recipes {
+						title
+					}
+				}
+			}
+		`;
+
+		const resp = await fetch(BotConstants.COOKING_API_URL, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ query }),
+		});
+
+		const data: GraphQLResponse<MenusGraphQLData> = await resp.json();
+
+		if (data.errors) {
+			throw new ApplicationError('GraphQL query failed', data.errors);
+		}
+		return data.data?.menus[0];
 	}
 }

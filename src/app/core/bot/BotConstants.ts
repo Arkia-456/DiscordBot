@@ -7,6 +7,7 @@ export abstract class BotConstants {
 			EMBED_LENGTH: 6000,
 			FOOTER_LENGTH: 2048,
 			TITLE_LENGTH: 256,
+			FIELDS_NUMBER: 25,
 		},
 		COLORS: {
 			COOKING: '#eba123' as HexColorString,

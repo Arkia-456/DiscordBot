@@ -1,6 +1,7 @@
 import { UUID } from 'crypto';
 import { RecipeInstructionModel } from './RecipeInstructionModel';
 import { RecipeIngredientModel } from './RecipeIngredientModel';
+import { TagModel } from './TagModel';
 
 export class RecipeModel {
 	declare id: UUID;
@@ -9,4 +10,5 @@ export class RecipeModel {
 	declare updatedAt?: Date;
 	declare recipeInstructions: Array<RecipeInstructionModel>;
 	declare recipeIngredients: Array<RecipeIngredientModel>;
+	declare tags: Array<TagModel>;
 }

@@ -40,11 +40,34 @@ export class DateUtils {
 	 * @param isPrevious `true` if want to get previous day, `false` otherwise
 	 * @returns date of the previous/next day
 	 */
-	private static getPreviousOrNextNamedDay(dayName: string, startDate: Date, isPrevious: boolean = false) {
+	private static getPreviousOrNextNamedDay(
+		dayName: string,
+		startDate: Date,
+		isPrevious: boolean = false,
+	) {
 		const date = new Date(startDate);
 		const dayNumber = DateUtils.dayNumbers[dayName.toLowerCase()];
-		if (!dayNumber) throw new ApplicationError({ message: `Incorrect prodived day name ${dayName}` });
+		if (!dayNumber) {
+			throw new ApplicationError({
+				message: `Incorrect prodived day name ${dayName}`,
+			});
+		}
 		const previous = isPrevious ? -1 : 1;
-		return new Date(date.setDate(date.getDate() + (7 + (dayNumber * previous) - (date.getDay() * previous)) * previous % 7));
+		return new Date(
+			date.setDate(
+				date.getDate() +
+					(((7 + dayNumber * previous - date.getDay() * previous) * previous) %
+						7),
+			),
+		);
+	}
+
+	/**
+	 * Format a date to YYYY-MM-DD format
+	 * @param date the date to format, defaults to current date
+	 * @returns formatted date string (e.g. '2026-04-09')
+	 */
+	static formatToIsoDateOnly(date: Date = new Date()): string {
+		return date.toISOString().split('T')[0];
 	}
 }
