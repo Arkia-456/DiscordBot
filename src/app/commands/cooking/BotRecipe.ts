@@ -41,11 +41,16 @@ export class BotRecipe {
 			}
 		`;
 
-		const resp = await fetch(BotConstants.COOKING_API_URL, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ query }),
-		});
+		let resp: Response;
+		try {
+			resp = await fetch(BotConstants.COOKING_API_URL, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ query }),
+			});
+		} catch (error) {
+			throw new ApplicationError('Failed to fetch recipes', error);
+		}
 
 		const data: GraphQLResponse<RecipeGraphQLModel> = await resp.json();
 
@@ -282,11 +287,16 @@ export class BotRecipe {
 			}
 		`;
 
-		const resp = await fetch(BotConstants.COOKING_API_URL, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ query }),
-		});
+		let resp: Response;
+		try {
+			resp = await fetch(BotConstants.COOKING_API_URL, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ query }),
+			});
+		} catch (error) {
+			throw new ApplicationError('Failed to fetch weekly menu', error);
+		}
 
 		const data: GraphQLResponse<MenuGraphQLModel> = await resp.json();
 

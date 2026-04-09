@@ -38,7 +38,7 @@ async function main() {
 			logger.error('Fatal error during bot initialization', error);
 			throw error;
 		} else {
-			logger.error('Unexpected error occurred');
+			logger.error('Unexpected error occurred', error);
 		}
 	}
 }

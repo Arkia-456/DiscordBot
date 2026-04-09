@@ -31,19 +31,19 @@ class Logger {
 		return Logger.instance;
 	}
 
-	info(message: string, meta?: object): void {
+	info(message: string, meta?: unknown): void {
 		this.logger.info(message, meta);
 	}
 
-	warn(message: string, meta?: object): void {
+	warn(message: string, meta?: unknown): void {
 		this.logger.warn(message, meta);
 	}
 
-	error(message: string, meta?: object): void {
+	error(message: string, meta?: unknown): void {
 		this.logger.error(message, meta);
 	}
 
-	debug(message: string, meta?: object): void {
+	debug(message: string, meta?: unknown): void {
 		this.logger.debug(message, meta);
 	}
 }

@@ -32,10 +32,16 @@ export class Bot {
 		logger.info('Logging bot...');
 		const botToken = process.env.BOT_TOKEN;
 		if (!botToken) {
-			logger.error('❌ Bot logging failed');
 			throw new ApplicationFatalError({ message: 'Missing bot token' });
 		}
-		await this.client.login(botToken);
+		try {
+			await this.client.login(botToken);
+		} catch (error) {
+			throw new ApplicationFatalError({
+				message: 'Bot login failed',
+				error: error,
+			});
+		}
 		logger.info('✔ Bot logged successfully');
 	}
 
