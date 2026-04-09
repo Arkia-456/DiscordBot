@@ -175,12 +175,12 @@ export class BotRecipe {
 		return embed;
 	}
 
-	public static async getWeeklyMenuMessage(currentWeek?: boolean) {
-		const menu = await BotRecipe.getWeeklyMenu(currentWeek);
+	public static async getWeeklyMenuMessage(nextWeek?: boolean) {
+		const menu = await BotRecipe.getWeeklyMenu(nextWeek);
 		if (!menu) {
 			const embed = new EmbedBuilder()
 				.setDescription(
-					`Aucun menu trouvé pour ${currentWeek ? 'cette semaine' : 'la semaine prochaine'}.`,
+					`Aucun menu trouvé pour ${nextWeek ? 'la semaine prochaine' : 'cette semaine'}.`,
 				)
 				.setColor(BotConstants.EMBEDS.COLORS.COOKING);
 			return { embeds: [embed] };
@@ -246,10 +246,10 @@ export class BotRecipe {
 		return result;
 	}
 
-	private static async getWeeklyMenu(currentWeek: boolean = false) {
-		const menu = currentWeek
-			? await BotRecipe.getCurrentWeekMenu()
-			: await BotRecipe.getNextWeekMenu();
+	private static async getWeeklyMenu(nextWeek: boolean = false) {
+		const menu = nextWeek
+			? await BotRecipe.getNextWeekMenu()
+			: await BotRecipe.getCurrentWeekMenu();
 		if (!menu) return null;
 		return menu;
 	}

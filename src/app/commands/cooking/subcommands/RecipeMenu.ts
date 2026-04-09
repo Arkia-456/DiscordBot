@@ -9,10 +9,10 @@ import { BotRecipe } from '../BotRecipe';
 
 async function execute(interaction: ChatInputCommandInteraction) {
 	const channel = interaction.channel;
-	const currentMenuOption = interaction.options.getBoolean('current-week');
+	const nextMenuOption = interaction.options.getBoolean('next-week');
 	if (channel) {
 		const messageOptions: InteractionReplyOptions =
-			await BotRecipe.getWeeklyMenuMessage(currentMenuOption ?? false);
+			await BotRecipe.getWeeklyMenuMessage(nextMenuOption ?? false);
 		await interaction.reply(messageOptions);
 	}
 }
@@ -25,9 +25,9 @@ export const subcommandInfo: ISubcommand = new Subcommand(
 		options: [
 			{
 				type: ApplicationCommandOptionType.Boolean,
-				name: 'current-week',
+				name: 'next-week',
 				description:
-					'Menu de la semaine en cours ? Si non, affiche le menu de la semaine prochaine',
+					'Menu de la semaine prochaine ? Si non, affiche le menu de la semaine en cours',
 			},
 		],
 	},
