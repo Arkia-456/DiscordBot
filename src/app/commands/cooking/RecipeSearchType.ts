@@ -1,5 +1,5 @@
-export type RecipeSearchType = {
+export interface RecipeSearchType {
 	key: string;
 	displayKey: string;
 	value: string;
-};
+}

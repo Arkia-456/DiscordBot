@@ -1,9 +1,9 @@
-import { RecipeGraphQLModel } from '../../cooking/models/RecipeGraphQLModel';
-import { RecipeSearchType } from '../../cooking/types/RecipeSearchType';
-import { BotConstants } from '../../core/bot/BotConstants';
-import { ApplicationError } from '../../core/utils/error/ApplicationError';
-import { GraphQLUtils } from '../../core/utils/GraphQLUtils';
-import logger from '../../core/utils/logger/Logger';
+import { RecipeGql } from './RecipeGql';
+import { RecipeSearchType } from '../../../commands/cooking/RecipeSearchType';
+import { BotConstants } from '../../../core/bot/BotConstants';
+import { ApplicationError } from '../../../core/utils/error/ApplicationError';
+import { GraphQLUtils } from '../../../core/utils/GraphQLUtils';
+import logger from '../../../core/utils/logger/Logger';
 
 export class RecipeQueries {
 	static async getRecipes(searchOptions: RecipeSearchType[]) {
@@ -47,7 +47,7 @@ export class RecipeQueries {
 		logger.info('GraphQL request', { query });
 
 		try {
-			const data = await GraphQLUtils.executeQuery<RecipeGraphQLModel>(
+			const data = await GraphQLUtils.executeQuery<RecipeGql>(
 				BotConstants.COOKING_API_URL,
 				query,
 			);

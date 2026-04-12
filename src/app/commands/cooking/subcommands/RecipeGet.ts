@@ -14,7 +14,7 @@ import logger from '../../../core/utils/logger/Logger';
 import { BotRecipe } from '../BotRecipe';
 import { ApplicationError } from '../../../core/utils/error/ApplicationError';
 import { BadInputError } from '../../../core/utils/error/BadInputError';
-import { RecipeSearchType } from '../../../cooking/types/RecipeSearchType';
+import { RecipeSearchType } from '../RecipeSearchType';
 
 async function execute(interaction: ChatInputCommandInteraction) {
 	const interactionCode = uniqueNamesGenerator({

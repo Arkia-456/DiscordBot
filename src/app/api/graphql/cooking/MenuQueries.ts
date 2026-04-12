@@ -1,8 +1,8 @@
-import { MenuGraphQLModel } from '../../cooking/models/MenuGraphQLModel';
-import { BotConstants } from '../../core/bot/BotConstants';
-import { ApplicationError } from '../../core/utils/error/ApplicationError';
-import { GraphQLUtils } from '../../core/utils/GraphQLUtils';
-import logger from '../../core/utils/logger/Logger';
+import { MenuGql } from './MenuGql';
+import { BotConstants } from '../../../core/bot/BotConstants';
+import { ApplicationError } from '../../../core/utils/error/ApplicationError';
+import { GraphQLUtils } from '../../../core/utils/GraphQLUtils';
+import logger from '../../../core/utils/logger/Logger';
 
 abstract class SearchOptions {
 	[key: string]: string | number | boolean;
@@ -28,7 +28,7 @@ export class MenuQueries {
 		logger.info('GraphQL request', { query });
 
 		try {
-			const data = await GraphQLUtils.executeQuery<MenuGraphQLModel>(
+			const data = await GraphQLUtils.executeQuery<MenuGql>(
 				BotConstants.COOKING_API_URL,
 				query,
 			);

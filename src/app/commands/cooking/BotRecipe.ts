@@ -3,12 +3,12 @@ import { BotConstants } from '../../core/bot/BotConstants';
 import { MathUtils } from '../../core/utils/MathUtils';
 import { EmbedUtils } from '../../core/utils/EmbedUtils';
 import { DateUtils } from '../../core/utils/DateUtils';
-import { MenuGraphQLModel } from '../../cooking/models/MenuGraphQLModel';
-import { RecipeGraphQLModel } from '../../cooking/models/RecipeGraphQLModel';
-import { RecipeIngredientGraphQLModel } from '../../cooking/models/RecipeIngredientGraphQLModel';
-import { RecipeQueries } from '../../api/graphql/RecipeQueries';
-import { MenuQueries } from '../../api/graphql/MenuQueries';
-import { RecipeSearchType } from '../../cooking/types/RecipeSearchType';
+import { RecipeQueries } from '../../api/graphql/cooking/RecipeQueries';
+import { MenuQueries } from '../../api/graphql/cooking/MenuQueries';
+import { RecipeSearchType } from './RecipeSearchType';
+import { RecipeGql } from '../../api/graphql/cooking/RecipeGql';
+import { MenuGql } from '../../api/graphql/cooking/MenuGql';
+import { RecipeIngredientGql } from '../../api/graphql/cooking/RecipeIngredientGql';
 
 export class BotRecipe {
 	static {
@@ -22,7 +22,7 @@ export class BotRecipe {
 
 	static createReplyOptions(
 		search: RecipeSearchType[],
-		recipes: Array<RecipeGraphQLModel>,
+		recipes: Array<RecipeGql>,
 	) {
 		const count = recipes.length;
 
@@ -39,7 +39,7 @@ export class BotRecipe {
 
 	private static createReplyMultipleRecipes(
 		search: RecipeSearchType[],
-		recipes: Array<RecipeGraphQLModel>,
+		recipes: Array<RecipeGql>,
 	) {
 		const count = recipes.length;
 		const headerBaseText = 'Résultats de la recherche ({count})';
@@ -90,7 +90,7 @@ export class BotRecipe {
 		return embed;
 	}
 
-	private static sortByIndex(ingredients: Array<RecipeIngredientGraphQLModel>) {
+	private static sortByIndex(ingredients: Array<RecipeIngredientGql>) {
 		ingredients.sort((a, b) => {
 			if (a.index == null && b.index == null) return 0;
 			if (a.index == null) return 1;
@@ -99,7 +99,7 @@ export class BotRecipe {
 		});
 	}
 
-	private static createReplySingleRecipe(recipe: RecipeGraphQLModel) {
+	private static createReplySingleRecipe(recipe: RecipeGql) {
 		const embed = new EmbedBuilder()
 			.setTitle(recipe.title)
 			.setColor(BotConstants.EMBEDS.COLORS.COOKING);
@@ -154,7 +154,7 @@ export class BotRecipe {
 		return BotRecipe.buildWeeklyMenuMessage(menu);
 	}
 
-	private static buildWeeklyMenuMessage(menu: MenuGraphQLModel) {
+	private static buildWeeklyMenuMessage(menu: MenuGql) {
 		const iconsDictionnary: { [key: string]: string } = {
 			Worldwide: '🌍',
 			Végétarien: '🥬',
@@ -196,10 +196,7 @@ export class BotRecipe {
 		};
 	}
 
-	private static splitEvently(
-		items: Array<RecipeGraphQLModel>,
-		maxPerEmbed: number,
-	) {
+	private static splitEvently(items: Array<RecipeGql>, maxPerEmbed: number) {
 		const total = items.length;
 		const embedsCount = Math.ceil(total / maxPerEmbed);
 		const baseSize = Math.floor(total / embedsCount);

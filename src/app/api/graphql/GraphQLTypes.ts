@@ -1,8 +1,8 @@
-export abstract class GraphQLModel {}
+export interface GraphQLModel {}
 
-export type GraphQLData<T extends GraphQLModel> = {
+export interface GraphQLData<T extends GraphQLModel> {
 	[key: string]: Array<T> | null;
-};
+}
 
 export interface GraphQLResponse<T extends GraphQLModel> {
 	data?: GraphQLData<T>;
