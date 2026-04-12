@@ -1,6 +1,10 @@
 import {
 	ActionRowBuilder,
 	AnySelectMenuInteraction,
+	AttachmentBuilder,
+	ButtonBuilder,
+	ButtonInteraction,
+	ButtonStyle,
 	EmbedBuilder,
 	StringSelectMenuBuilder,
 } from 'discord.js';
@@ -14,6 +18,8 @@ import { RecipeSearchType } from './RecipeSearchType';
 import { RecipeGql } from '../../api/graphql/cooking/types/RecipeGql';
 import { MenuGql } from '../../api/graphql/cooking/types/MenuGql';
 import { RecipeIngredientGql } from '../../api/graphql/cooking/types/RecipeIngredientGql';
+
+import { RecipePdfGenerator } from '../../core/utils/cooking/RecipePdfGenerator';
 
 export class BotRecipe {
 	static {
@@ -32,9 +38,7 @@ export class BotRecipe {
 		const count = recipes.length;
 
 		if (count === 1) {
-			return {
-				embeds: [BotRecipe.createReplySingleRecipe(recipes[0])],
-			};
+			return BotRecipe.createReplySingleRecipe(recipes[0]);
 		}
 
 		return BotRecipe.createReplyMultipleRecipes(search, recipes);
@@ -46,6 +50,18 @@ export class BotRecipe {
 		const recipes = await BotRecipe.searchRecipes(search);
 		const replyOptions = BotRecipe.createReplyOptions(search, recipes);
 		await interaction.reply(replyOptions);
+	}
+
+	static async handleButtonInteraction(interaction: ButtonInteraction) {
+		const recipeId = interaction.customId.split(':')[1];
+		const search = [{ key: 'id', value: recipeId }];
+		const recipes = await BotRecipe.searchRecipes(search);
+		const recipe = recipes[0];
+		const pdfBuffer = await RecipePdfGenerator.generate(recipe);
+		const attachment = new AttachmentBuilder(pdfBuffer, {
+			name: `${recipe.title.replace(/\s+/g, '_')}.pdf`,
+		});
+		await interaction.reply({ files: [attachment] });
 	}
 
 	private static createReplyMultipleRecipes(
@@ -172,7 +188,14 @@ export class BotRecipe {
 		}));
 		embed.addFields(instructions);
 
-		return embed;
+		const pdfButton = new ButtonBuilder()
+			.setCustomId(`recipe_pdf:${recipe.id}`)
+			.setLabel('Télécharger la recette')
+			.setEmoji('📄')
+			.setStyle(ButtonStyle.Primary);
+		const row = new ActionRowBuilder<ButtonBuilder>().addComponents(pdfButton);
+
+		return { embeds: [embed], components: [row] };
 	}
 
 	public static async getWeeklyMenuMessage(nextWeek?: boolean) {

@@ -22,6 +22,9 @@ export class MathUtils {
 			0.25: '¼',
 			0.2: '⅕',
 		};
-		return fractions[number] ?? String(number);
+		const whole = Math.floor(number);
+		const decimal = Math.round((number - whole) * 100) / 100;
+		const fraction = fractions[decimal];
+		return fraction ? `${whole > 0 ? whole : ''}${fraction}` : String(number);
 	}
 }
