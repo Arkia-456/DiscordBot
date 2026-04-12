@@ -7,6 +7,7 @@ import { TagGql } from './TagGql';
 export interface RecipeGql extends GraphQLModel {
 	id: UUID;
 	title: string;
+	subtitle?: string;
 	createdAt?: Date;
 	updatedAt?: Date;
 	recipeInstructions: Array<RecipeInstructionGql>;

@@ -24,6 +24,7 @@ export class RecipeQueries {
 				recipes(where: { ${whereConditions} }) {
 					id
 					title
+					subtitle
 					recipeIngredients {
 						quantity
 						unit

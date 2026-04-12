@@ -136,6 +136,7 @@ export class BotRecipe {
 		const embed = new EmbedBuilder()
 			.setTitle(recipe.title)
 			.setColor(BotConstants.EMBEDS.COLORS.COOKING);
+		if (recipe.subtitle) embed.setDescription(recipe.subtitle);
 
 		BotRecipe.sortByIndex(recipe.recipeIngredients);
 		const ingredients = recipe.recipeIngredients.map((ri) =>
