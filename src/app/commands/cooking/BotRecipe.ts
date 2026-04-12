@@ -65,7 +65,11 @@ export class BotRecipe {
 		let recipeList = '';
 		const separator = '\n-';
 
-		for (const recipe of recipes) {
+		const sortedRecipes = [...recipes].sort((a, b) =>
+			a.title.localeCompare(b.title),
+		);
+
+		for (const recipe of sortedRecipes) {
 			const addition = `${separator} ${recipe.title}`;
 			if (recipeList.length + addition.length > descriptionBudget) break;
 
