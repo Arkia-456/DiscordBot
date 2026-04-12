@@ -1,4 +1,4 @@
-import { RecipeGql } from './RecipeGql';
+import { RecipeGql } from './types/RecipeGql';
 import { RecipeSearchType } from '../../../commands/cooking/RecipeSearchType';
 import { BotConstants } from '../../../core/bot/BotConstants';
 import { ApplicationError } from '../../../core/utils/error/ApplicationError';

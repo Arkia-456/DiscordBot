@@ -1,4 +1,4 @@
-import { GraphQLModel } from '../GraphQLTypes';
+import { GraphQLModel } from '../../GraphQLTypes';
 
 export interface TagGql extends GraphQLModel {
 	slug: string;

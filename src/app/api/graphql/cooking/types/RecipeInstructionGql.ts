@@ -1,4 +1,4 @@
-import { GraphQLModel } from '../GraphQLTypes';
+import { GraphQLModel } from '../../GraphQLTypes';
 
 export interface RecipeInstructionGql extends GraphQLModel {
 	index: number;

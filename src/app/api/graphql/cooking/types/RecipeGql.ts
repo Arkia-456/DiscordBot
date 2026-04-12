@@ -1,5 +1,5 @@
 import { UUID } from 'crypto';
-import { GraphQLModel } from '../GraphQLTypes';
+import { GraphQLModel } from '../../GraphQLTypes';
 import { RecipeInstructionGql } from './RecipeInstructionGql';
 import { RecipeIngredientGql } from './RecipeIngredientGql';
 import { TagGql } from './TagGql';

@@ -1,4 +1,4 @@
-import { MenuGql } from './MenuGql';
+import { MenuGql } from './types/MenuGql';
 import { BotConstants } from '../../../core/bot/BotConstants';
 import { ApplicationError } from '../../../core/utils/error/ApplicationError';
 import { GraphQLUtils } from '../../../core/utils/GraphQLUtils';

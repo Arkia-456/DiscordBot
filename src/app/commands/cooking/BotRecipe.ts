@@ -6,9 +6,9 @@ import { DateUtils } from '../../core/utils/DateUtils';
 import { RecipeQueries } from '../../api/graphql/cooking/RecipeQueries';
 import { MenuQueries } from '../../api/graphql/cooking/MenuQueries';
 import { RecipeSearchType } from './RecipeSearchType';
-import { RecipeGql } from '../../api/graphql/cooking/RecipeGql';
-import { MenuGql } from '../../api/graphql/cooking/MenuGql';
-import { RecipeIngredientGql } from '../../api/graphql/cooking/RecipeIngredientGql';
+import { RecipeGql } from '../../api/graphql/cooking/types/RecipeGql';
+import { MenuGql } from '../../api/graphql/cooking/types/MenuGql';
+import { RecipeIngredientGql } from '../../api/graphql/cooking/types/RecipeIngredientGql';
 
 export class BotRecipe {
 	static {
