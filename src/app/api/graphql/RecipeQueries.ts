@@ -1,18 +1,27 @@
 import { RecipeGraphQLModel } from '../../cooking/models/RecipeGraphQLModel';
+import { RecipeSearchType } from '../../cooking/types/RecipeSearchType';
 import { BotConstants } from '../../core/bot/BotConstants';
 import { ApplicationError } from '../../core/utils/error/ApplicationError';
 import { GraphQLUtils } from '../../core/utils/GraphQLUtils';
 import logger from '../../core/utils/logger/Logger';
 
-abstract class SearchOptions {
-	[key: string]: string | number | boolean;
-}
-
 export class RecipeQueries {
-	static async getRecipes(searchOptions: SearchOptions) {
-		const whereConditions = Object.entries(searchOptions)
-			.map(([key, value]) => `${key}: { contains: "${value}" }`)
-			.join(', ');
+	static async getRecipes(searchOptions: RecipeSearchType[]) {
+		const recipeSearchOptions = ['title'];
+		const ingredientSearchOptions = ['ingredient'];
+
+		const whereConditions = searchOptions
+			.map(({ key, value }) => {
+				if (recipeSearchOptions.includes(key)) {
+					return `${key}: { contains: "${value}" }`;
+				}
+				if (ingredientSearchOptions.includes(key)) {
+					return `recipeIngredients: { some: { ingredient: { name: { contains: "${value}" } } } }`;
+				}
+				return null;
+			})
+			.filter(Boolean)
+			.join('\n');
 
 		const query = `
 			query Recipes {

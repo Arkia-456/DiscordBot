@@ -13,6 +13,8 @@ import {
 import logger from '../../../core/utils/logger/Logger';
 import { BotRecipe } from '../BotRecipe';
 import { ApplicationError } from '../../../core/utils/error/ApplicationError';
+import { BadInputError } from '../../../core/utils/error/BadInputError';
+import { RecipeSearchType } from '../../../cooking/types/RecipeSearchType';
 
 async function execute(interaction: ChatInputCommandInteraction) {
 	const interactionCode = uniqueNamesGenerator({
@@ -24,14 +26,44 @@ async function execute(interaction: ChatInputCommandInteraction) {
 		command: 'recette rechercher',
 	});
 
-	const search = interaction.options.getString('nom', true);
-
 	try {
+		const titleInput = interaction.options.getString('nom');
+		const ingredientInput = interaction.options.getString('ingrédient');
+
+		if (!titleInput && !ingredientInput) {
+			throw new BadInputError({
+				error: 'NoSearchCriteriaError',
+				message: 'At least one search criteria must be provided.',
+			});
+		}
+
+		const search: RecipeSearchType[] = [
+			...(titleInput
+				? [{ displayKey: 'nom', key: 'title', value: titleInput }]
+				: []),
+			...(ingredientInput
+				? [
+						{
+							displayKey: 'ingrédient',
+							key: 'ingredient',
+							value: ingredientInput,
+						},
+					]
+				: []),
+		];
+
 		const recipes = await BotRecipe.searchRecipes(search);
 		const replyOptions = BotRecipe.createReplyOptions(search, recipes);
 		await interaction.reply(replyOptions);
 	} catch (error) {
-		if (error instanceof ApplicationError) {
+		if (error instanceof BadInputError) {
+			if (error.error === 'NoSearchCriteriaError') {
+				await interaction.reply(
+					'Erreur de saisie : Au moins un critère de recherche doit être fourni.',
+				);
+				return;
+			}
+		} else if (error instanceof ApplicationError) {
 			logger.error(error.message, {
 				interactionId: interactionCode,
 				error:
@@ -67,7 +99,12 @@ export const subcommandInfo: ISubcommand = new Subcommand(
 				name: 'nom',
 				description: 'Nom de la recette',
 				minLength: 3,
-				required: true,
+			},
+			{
+				type: ApplicationCommandOptionType.String,
+				name: 'ingrédient',
+				description: "Nom de l'ingrédient",
+				minLength: 3,
 			},
 		],
 	},

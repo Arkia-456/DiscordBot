@@ -8,6 +8,7 @@ import { RecipeGraphQLModel } from '../../cooking/models/RecipeGraphQLModel';
 import { RecipeIngredientGraphQLModel } from '../../cooking/models/RecipeIngredientGraphQLModel';
 import { RecipeQueries } from '../../api/graphql/RecipeQueries';
 import { MenuQueries } from '../../api/graphql/MenuQueries';
+import { RecipeSearchType } from '../../cooking/types/RecipeSearchType';
 
 export class BotRecipe {
 	static {
@@ -15,12 +16,12 @@ export class BotRecipe {
 		process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 	}
 
-	static searchRecipes(search: string) {
-		return RecipeQueries.getRecipes({ title: search });
+	static searchRecipes(search: RecipeSearchType[]) {
+		return RecipeQueries.getRecipes(search);
 	}
 
 	static createReplyOptions(
-		search: string,
+		search: RecipeSearchType[],
 		recipes: Array<RecipeGraphQLModel>,
 	) {
 		const count = recipes.length;
@@ -37,7 +38,7 @@ export class BotRecipe {
 	}
 
 	private static createReplyMultipleRecipes(
-		search: string,
+		search: RecipeSearchType[],
 		recipes: Array<RecipeGraphQLModel>,
 	) {
 		const count = recipes.length;
@@ -49,7 +50,7 @@ export class BotRecipe {
 		});
 
 		const footer = EmbedUtils.createFooter({
-			text: `Recherche : ${search}`,
+			text: `Recherche : ${search.map((s) => `${s.displayKey} : ${s.value}`).join(', ')}`,
 			ellipsis: true,
 		});
 
