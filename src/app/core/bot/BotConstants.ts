@@ -13,6 +13,11 @@ export abstract class BotConstants {
 			COOKING: '#eba123' as HexColorString,
 		},
 	};
+	static readonly COMPONENTS = {
+		LIMITS: {
+			SELECT_MENU_MAX_OPTIONS: 25,
+		},
+	};
 	static get COOKING_API_URL() {
 		return process.env.COOKING_API_URL || '';
 	}

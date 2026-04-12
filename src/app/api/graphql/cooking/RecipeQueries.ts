@@ -7,19 +7,15 @@ import logger from '../../../core/utils/logger/Logger';
 
 export class RecipeQueries {
 	static async getRecipes(searchOptions: RecipeSearchType[]) {
-		const recipeSearchOptions = ['title'];
-		const ingredientSearchOptions = ['ingredient'];
+		const searchConfig: Record<string, (value: string) => string> = {
+			id: (value) => `id: { eq: "${value}" }`,
+			title: (value) => `title: { contains: "${value}" }`,
+			ingredient: (value) =>
+				`recipeIngredients: { some: { ingredient: { name: { contains: "${value}" } } } }`,
+		};
 
 		const whereConditions = searchOptions
-			.map(({ key, value }) => {
-				if (recipeSearchOptions.includes(key)) {
-					return `${key}: { contains: "${value}" }`;
-				}
-				if (ingredientSearchOptions.includes(key)) {
-					return `recipeIngredients: { some: { ingredient: { name: { contains: "${value}" } } } }`;
-				}
-				return null;
-			})
+			.map(({ key, value }) => searchConfig[key]?.(value) ?? null)
 			.filter(Boolean)
 			.join('\n');
 

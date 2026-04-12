@@ -1,5 +1,5 @@
 export interface RecipeSearchType {
 	key: string;
-	displayKey: string;
+	displayKey?: string;
 	value: string;
 }

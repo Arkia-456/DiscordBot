@@ -1,4 +1,9 @@
-import { EmbedBuilder } from 'discord.js';
+import {
+	ActionRowBuilder,
+	AnySelectMenuInteraction,
+	EmbedBuilder,
+	StringSelectMenuBuilder,
+} from 'discord.js';
 import { BotConstants } from '../../core/bot/BotConstants';
 import { MathUtils } from '../../core/utils/MathUtils';
 import { EmbedUtils } from '../../core/utils/EmbedUtils';
@@ -32,9 +37,16 @@ export class BotRecipe {
 			};
 		}
 
-		return {
-			embeds: [BotRecipe.createReplyMultipleRecipes(search, recipes)],
-		};
+		return BotRecipe.createReplyMultipleRecipes(search, recipes);
+	}
+
+	static async handleSelectRecipe(interaction: AnySelectMenuInteraction) {
+		const recipeId = interaction.values[0];
+		console.log('Selected recipe ID:', recipeId);
+		const search = [{ key: 'id', value: recipeId }];
+		const recipes = await BotRecipe.searchRecipes(search);
+		const replyOptions = BotRecipe.createReplyOptions(search, recipes);
+		await interaction.reply(replyOptions);
 	}
 
 	private static createReplyMultipleRecipes(
@@ -91,7 +103,25 @@ export class BotRecipe {
 			.setFooter(footer);
 		if (recipeList) embed.setDescription(recipeList);
 
-		return embed;
+		const selectableRecipes = sortedRecipes.slice(
+			0,
+			BotConstants.COMPONENTS.LIMITS.SELECT_MENU_MAX_OPTIONS,
+		);
+		const selectMenu = new StringSelectMenuBuilder()
+			.setCustomId('recipe_select')
+			.setPlaceholder('Sélectionnez une recette')
+			.addOptions(
+				selectableRecipes.map((recipe) => ({
+					label: recipe.title,
+					value: recipe.id,
+				})),
+			);
+
+		const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+			selectMenu,
+		);
+
+		return { embeds: [embed], components: [row] };
 	}
 
 	private static sortByIndex(ingredients: Array<RecipeIngredientGql>) {
