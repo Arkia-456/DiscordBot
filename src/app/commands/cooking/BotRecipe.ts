@@ -42,7 +42,6 @@ export class BotRecipe {
 
 	static async handleSelectRecipe(interaction: AnySelectMenuInteraction) {
 		const recipeId = interaction.values[0];
-		console.log('Selected recipe ID:', recipeId);
 		const search = [{ key: 'id', value: recipeId }];
 		const recipes = await BotRecipe.searchRecipes(search);
 		const replyOptions = BotRecipe.createReplyOptions(search, recipes);
