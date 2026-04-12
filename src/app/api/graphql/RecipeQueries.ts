@@ -1,5 +1,5 @@
-import { BotRecipe } from '../../commands/cooking/BotRecipe';
 import { RecipeGraphQLModel } from '../../cooking/models/RecipeGraphQLModel';
+import { BotConstants } from '../../core/bot/BotConstants';
 import { ApplicationError } from '../../core/utils/error/ApplicationError';
 import { GraphQLUtils } from '../../core/utils/GraphQLUtils';
 import logger from '../../core/utils/logger/Logger';
@@ -39,7 +39,7 @@ export class RecipeQueries {
 
 		try {
 			const data = await GraphQLUtils.executeQuery<RecipeGraphQLModel>(
-				BotRecipe.apiUrl,
+				BotConstants.COOKING_API_URL,
 				query,
 			);
 			return data?.recipes ?? [];

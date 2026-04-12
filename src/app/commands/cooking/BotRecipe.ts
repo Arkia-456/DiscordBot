@@ -15,8 +15,6 @@ export class BotRecipe {
 		process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 	}
 
-	static apiUrl = BotConstants.COOKING_API_URL;
-
 	static searchRecipes(search: string) {
 		return RecipeQueries.getRecipes({ title: search });
 	}
