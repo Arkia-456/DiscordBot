@@ -2,8 +2,6 @@ import {
 	ApplicationCommandOptionType,
 	ChatInputCommandInteraction,
 } from 'discord.js';
-import { ISubcommand } from '../../../core/bot/commands/ISubcommand';
-import { Subcommand } from '../../../core/bot/commands/Subcommand';
 import {
 	adjectives,
 	animals,
@@ -15,6 +13,8 @@ import { BotRecipe } from '../BotRecipe';
 import { ApplicationError } from '../../../core/utils/error/ApplicationError';
 import { BadInputError } from '../../../core/utils/error/BadInputError';
 import { RecipeSearchType } from '../RecipeSearchType';
+import { ISubcommand } from '../../../core/bot/interactions/commands/ISubcommand';
+import { Subcommand } from '../../../core/bot/interactions/commands/Subcommand';
 
 async function execute(interaction: ChatInputCommandInteraction) {
 	const interactionCode = uniqueNamesGenerator({

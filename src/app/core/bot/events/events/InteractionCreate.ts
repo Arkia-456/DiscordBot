@@ -1,6 +1,6 @@
 import { Events, Interaction } from 'discord.js';
-import { CommandManager } from '../../commands/CommandManager';
 import { SelectMenuManager } from '../../interactions/selectMenu/SelectMenuManager';
+import { CommandManager } from '../../interactions/commands/CommandManager';
 
 async function execute(interaction: Interaction) {
 	console.log(interaction);

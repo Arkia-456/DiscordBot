@@ -1,9 +1,9 @@
 import { Client } from 'discord.js';
 import Intents from './Intents';
-import { CommandManager } from './commands/CommandManager';
 import { ApplicationFatalError } from '../utils/error/ApplicationFatalError';
 import logger from '../utils/logger/Logger';
 import { EventManager } from './events/EventManager';
+import { CommandManager } from './interactions/commands/CommandManager';
 
 /**
  * Manage the bot

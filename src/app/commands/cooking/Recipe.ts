@@ -1,5 +1,5 @@
-import { ICommand } from '../../core/bot/commands/ICommand';
-import { Command } from '../../core/bot/commands/Command';
+import { Command } from '../../core/bot/interactions/commands/Command';
+import { ICommand } from '../../core/bot/interactions/commands/ICommand';
 
 export const commandInfo: ICommand = new Command(
 	'Recipe',

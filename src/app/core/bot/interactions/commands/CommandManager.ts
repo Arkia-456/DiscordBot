@@ -8,8 +8,8 @@ import {
 import { readdir } from 'fs/promises';
 import { ICommand } from './ICommand';
 import path from 'path';
-import { ApplicationFatalError } from '../../utils/error/ApplicationFatalError';
-import logger from '../../utils/logger/Logger';
+import { ApplicationFatalError } from '../../../utils/error/ApplicationFatalError';
+import logger from '../../../utils/logger/Logger';
 
 /**
  * Manage command registration and execution
@@ -37,7 +37,14 @@ export class CommandManager {
 	 * @returns array of commands to register against Discord API
 	 */
 	private static async getCommandsToRegister() {
-		const categoriesPath = path.join(__dirname, '..', '..', '..', 'commands');
+		const categoriesPath = path.join(
+			__dirname,
+			'..',
+			'..',
+			'..',
+			'..',
+			'commands',
+		);
 		const categories: Array<string> = [];
 		try {
 			categories.push(...(await readdir(categoriesPath)));
