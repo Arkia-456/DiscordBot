@@ -10,7 +10,7 @@ export abstract class BotConstants {
 			FIELDS_NUMBER: 25,
 		},
 		COLORS: {
-			COOKING: '#eba123' as HexColorString,
+			COOKING: '#EF865D' as HexColorString,
 		},
 	};
 	static readonly COMPONENTS = {
